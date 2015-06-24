@@ -6,6 +6,8 @@ package app;
  * @author Malith
  */
 public class Person {
+    
+    //25 fields (without pic)
     private String firstName;
     private String lastName;
     private String group;
@@ -35,6 +37,7 @@ public class Person {
 
     //constructure (without pic)
     public Person(String firstName, String lastName, String group, String tags, String nic, String sex, String mobileOne, String mobileTwo, String home, String office, String fax, String personalAddress, String officeAddress, String business, String notes, String birthday, String acNumber, String nickName, String branch, String cifNo, String acType, String emailPersonal, String emailBusiness, String webPagePersonal, String webPageBusiness) {
+        
         this.firstName = firstName;
         this.lastName = lastName;
         this.group = group;
