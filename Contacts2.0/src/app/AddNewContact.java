@@ -16,16 +16,15 @@ import javax.swing.JOptionPane;
  *
  * @author Malith
  */
-public class NewContact extends javax.swing.JFrame {
+public class AddNewContact extends javax.swing.JDialog {
     private PersonDAC personDAC;
-
     /**
-     * Creates new form NewContact
+     * Creates new form AddNewContact
      */
-    public NewContact() throws IOException, SQLException {
+    public AddNewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException {
+        super(parent, modal);
         this.personDAC = new PersonDAC();
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -37,6 +36,10 @@ public class NewContact extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cancelBtn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        tagsCmb = new javax.swing.JComboBox();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -44,12 +47,6 @@ public class NewContact extends javax.swing.JFrame {
         lastNameTxt = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         nickNameTxt = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        groupCmb = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        tagsCmb = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -110,83 +107,15 @@ public class NewContact extends javax.swing.JFrame {
         jPanel18 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         notesTxt = new javax.swing.JTextArea();
+        jPanel2 = new javax.swing.JPanel();
+        groupCmb = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
-        cancelBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("New Contact");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add New Contact");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
-        jPanel1.setName(""); // NOI18N
-
-        jLabel1.setText("First");
-
-        jLabel2.setText("Last");
-
-        jLabel3.setText("Nick");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(firstNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nickNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {firstNameTxt, lastNameTxt, nickNameTxt});
-
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(firstNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lastNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nickNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Group"));
-
-        groupCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Customer", "Staff" }));
-
-        jButton1.setText("+");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(44, 44, 44))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(0, 6, Short.MAX_VALUE))
-        );
+        cancelBtn.setText("Cancel");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tags"));
 
@@ -210,6 +139,50 @@ public class NewContact extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tagsCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
+        jPanel1.setName(""); // NOI18N
+
+        jLabel1.setText("First");
+
+        jLabel2.setText("Last");
+
+        jLabel3.setText("Nick");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nickNameTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                    .addComponent(firstNameTxt)
+                    .addComponent(lastNameTxt))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(firstNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lastNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nickNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Account"));
@@ -241,9 +214,6 @@ public class NewContact extends javax.swing.JFrame {
                     .addComponent(accountNOTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                     .addComponent(accountTypeCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {accountNOTxt, branchTxt, cifTxt});
-
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -300,7 +270,7 @@ public class NewContact extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ageTxt)
                             .addComponent(dobTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,9 +374,6 @@ public class NewContact extends javax.swing.JFrame {
                         .addComponent(mobile2Txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        jPanel9Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {homeTxt, mobile1Txt, mobile2Txt});
-
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
@@ -529,9 +496,6 @@ public class NewContact extends javax.swing.JFrame {
                         .addComponent(FaxTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {FaxTxt, phoneOfficeTxt});
-
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
@@ -629,7 +593,7 @@ public class NewContact extends javax.swing.JFrame {
                             .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -674,7 +638,7 @@ public class NewContact extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -686,14 +650,37 @@ public class NewContact extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Notes", jPanel17);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Group"));
+
+        groupCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Customer", "Staff" }));
+
+        jButton1.setText("+");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(44, 44, 44))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(0, 6, Short.MAX_VALUE))
+        );
+
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveBtnActionPerformed(evt);
             }
         });
-
-        cancelBtn.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -718,9 +705,6 @@ public class NewContact extends javax.swing.JFrame {
                 .addComponent(cancelBtn)
                 .addGap(33, 33, 33))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelBtn, saveBtn});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -737,63 +721,59 @@ public class NewContact extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveBtn)
                     .addComponent(cancelBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        
+
         //get the person info from GUI
-            String firstName = firstNameTxt.getText();
-            String lastName = lastNameTxt.getText();
-            String group = groupCmb.getSelectedItem().toString();
-            String tags = tagsCmb.getSelectedItem().toString();
-            String nic = nicTxt.getText();
-            String sex = sexTxt.getText();
-            String mobileOne = mobile1Txt.getText();
-            String mobileTwo = mobile2Txt.getText();
-            String home = homeTxt.getText();
-            String office = phoneOfficeTxt.getText();
-            String fax = FaxTxt.getText();
-            String personalAddress = addressPersonalTxt.getText();
-            String officeAddress = addressBusinessTxt.getText();
-            String business = businessNameTxt.getText();
-            String notes = notesTxt.getText();
-            String birthday = dobTxt.getText();
-            //person_image // later
-            String acNumber = accountNOTxt.getText();
-            String nickName = nickNameTxt.getText();
-            String branch = branchTxt.getText();
-            String cifNo = cifTxt.getText();
-            String acType = accountTypeCmb.getSelectedItem().toString();
-            String emailPersonal = emailPersonalTxt.getText();
-            String emailBusiness = emailBusinessTxt.getText();
-            String webPagePersonal = webPagePersonalTxt.getText();
-            String webPageBusiness = webPageBusinessTxt.getText();
-            
-            Person person = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
-            
-            //save person to the database
-            try {
+        String firstName = firstNameTxt.getText();
+        String lastName = lastNameTxt.getText();
+        String group = groupCmb.getSelectedItem().toString();
+        String tags = tagsCmb.getSelectedItem().toString();
+        String nic = nicTxt.getText();
+        String sex = sexTxt.getText();
+        String mobileOne = mobile1Txt.getText();
+        String mobileTwo = mobile2Txt.getText();
+        String home = homeTxt.getText();
+        String office = phoneOfficeTxt.getText();
+        String fax = FaxTxt.getText();
+        String personalAddress = addressPersonalTxt.getText();
+        String officeAddress = addressBusinessTxt.getText();
+        String business = businessNameTxt.getText();
+        String notes = notesTxt.getText();
+        String birthday = dobTxt.getText();
+        //person_image // later
+        String acNumber = accountNOTxt.getText();
+        String nickName = nickNameTxt.getText();
+        String branch = branchTxt.getText();
+        String cifNo = cifTxt.getText();
+        String acType = accountTypeCmb.getSelectedItem().toString();
+        String emailPersonal = emailPersonalTxt.getText();
+        String emailBusiness = emailBusinessTxt.getText();
+        String webPagePersonal = webPagePersonalTxt.getText();
+        String webPageBusiness = webPageBusinessTxt.getText();
+
+        Person person = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+
+        try {
             //save person to the database
             personDAC.addPerson(person);
             
             //close addNewContact dialog
-            //setVisible(false);
-            //dispose();
+            setVisible(false);
+            dispose();
             
             //refresh GUI 
             
             // show success message
-           // JOptionPane.showMessageDialog(rootPane, "Employee added successfully");
-            
-        } catch (Exception ex) {
-            //JOptionPane.showMessageDialog(null, ex.getMessage());
-                System.out.println(ex.toString());
+            JOptionPane.showMessageDialog(null, "Employee added successfully");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-           
     }//GEN-LAST:event_saveBtnActionPerformed
 
     /**
@@ -813,27 +793,35 @@ public class NewContact extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                AddNewContact dialog;
                 try {
-                    new NewContact().setVisible(true);
+                    dialog = new AddNewContact(new javax.swing.JFrame(), true);
+                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AddNewContact.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AddNewContact.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
         });
     }
@@ -915,5 +903,4 @@ public class NewContact extends javax.swing.JFrame {
     private javax.swing.JTextField webPageBusinessTxt;
     private javax.swing.JTextField webPagePersonalTxt;
     // End of variables declaration//GEN-END:variables
-   
 }
