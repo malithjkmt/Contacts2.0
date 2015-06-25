@@ -8,7 +8,7 @@ package app;
 public class Person {
     
     //25 fields (without pic)
-    private String firstName;
+    private String firstName; 
     private String lastName;
     private String group;
     private String tags;
