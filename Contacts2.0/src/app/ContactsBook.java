@@ -8,6 +8,7 @@ package app;
 import dac.PersonDAC;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -114,7 +115,38 @@ public class ContactsBook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        
+        // Get last name from the text field
+
+        // Call DAO and get employees for the last name
+
+        // If last name is empty, then get all employees
+
+        // Print out employees				
+
+        try {
+                String lastName = txtSearch.getText();
+
+                List<Person> person = null;
+
+                if (lastName != null && lastName.trim().length() > 0) {
+                        person = personDAC.searchPerson(lastName);
+                } else {
+                        person = personDAC.getAllPerson();
+                }
+
+                // create the model and update the "table"
+                PersonTableModel model = new PersonTableModel(person);
+
+                table.setModel(model);
+
+                /*
+                for (Employee temp : employees) {
+                        System.out.println(temp);
+                }
+                */
+        } catch (Exception exc) {
+                JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE); 
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     /**

@@ -38,7 +38,7 @@ public class PersonDAC {
          
     }
     //get all person
-    public List<Person> getAllEmployees() throws Exception {
+    public List<Person> getAllPerson() throws Exception {
 		List<Person> list = new ArrayList<>();
 		
 		Statement myStmt = null;
@@ -61,7 +61,7 @@ public class PersonDAC {
 	}
     
     //search a person
-    public List<Person> searchEmployees(String lastName) throws Exception {
+    public List<Person> searchPerson(String lastName) throws Exception {
         List<Person> list = new ArrayList<>();
 
         PreparedStatement myStmt = null;
@@ -161,7 +161,7 @@ public class PersonDAC {
     
     public static void main(String args[]) throws IOException, SQLException, Exception{
         PersonDAC dac = new PersonDAC();
-        System.out.println(dac.searchEmployees("Thilakarathne").get(0).getLastName());
+        System.out.println(dac.getAllPerson());
     }
     
     // convert a row in DB in to a Person
