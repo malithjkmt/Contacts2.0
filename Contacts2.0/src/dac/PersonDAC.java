@@ -2,6 +2,7 @@
 package dac;
 
 import app.Person;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Properties;
 
 /**
@@ -32,6 +36,55 @@ public class PersonDAC {
         myConn = DriverManager.getConnection(dburl, user, password);
         System.out.println("DB connection successful to : " + dburl);
          
+    }
+    //get all person
+    public List<Person> getAllEmployees() throws Exception {
+		List<Person> list = new ArrayList<>();
+		
+		Statement myStmt = null;
+		ResultSet myRs = null; 
+		
+		try {
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery("select * from person");
+			
+			while (myRs.next()) {
+				Person tempPerson = convertRowToPerson(myRs);
+				list.add(tempPerson);
+			}
+
+			return list;		
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
+    
+    //search a person
+    public List<Person> searchEmployees(String lastName) throws Exception {
+        List<Person> list = new ArrayList<>();
+
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        try {
+                lastName += "%";
+                myStmt = myConn.prepareStatement("select * from person where lastName like ?");
+
+                myStmt.setString(1, lastName);
+
+                myRs = myStmt.executeQuery();
+
+                while (myRs.next()) {
+                        Person tempPerson = convertRowToPerson(myRs);
+                        list.add(tempPerson);
+                }
+
+                return list;
+        }
+        finally {
+                close(myStmt, myRs);
+        }
     }
     
     // add a new person(contact)
@@ -106,8 +159,44 @@ public class PersonDAC {
 		close(null, myStmt, null);	
     }
     
-    public static void main(String args[]) throws IOException, SQLException{
-        new PersonDAC();
+    public static void main(String args[]) throws IOException, SQLException, Exception{
+        PersonDAC dac = new PersonDAC();
+        System.out.println(dac.searchEmployees("Thilakarathne").get(0).getLastName());
+    }
+    
+    // convert a row in DB in to a Person
+    private Person convertRowToPerson(ResultSet myRs) throws SQLException {
+				
+        String firstName = myRs.getString(1);
+        String lastName = myRs.getString(2);
+        String group = myRs.getString(3);
+        String tags = myRs.getString(4);
+        String nic = myRs.getString(5);
+        String sex = myRs.getString(6);
+        String mobileOne = myRs.getString(7);
+        String mobileTwo = myRs.getString(8);
+        String home = myRs.getString(9);
+        String office = myRs.getString(10);
+        String fax = myRs.getString(11);
+        String personalAddress = myRs.getString(12);
+        String officeAddress = myRs.getString(13);
+        String business = myRs.getString(14);
+        String notes = myRs.getString(15);
+        String birthday = myRs.getString(16);
+        //person_image // later
+        String acNumber = myRs.getString(17);
+        String nickName = myRs.getString(18);
+        String branch = myRs.getString(19);
+        String cifNo = myRs.getString(20);
+        String acType = myRs.getString(21);
+        String emailPersonal = myRs.getString(22);
+        String emailBusiness = myRs.getString(23);
+        String webPagePersonal = myRs.getString(24);
+        String webPageBusiness = myRs.getString(25);
+		
+	Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+
+	return tempPerson;
     }
     
 }
