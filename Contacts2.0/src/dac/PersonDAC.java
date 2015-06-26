@@ -196,6 +196,22 @@ public class PersonDAC {
             close(myStmt);
         }
     }
+    public void deletePerson (String nic) throws SQLException{
+        PreparedStatement myStmt = null;
+        try{
+            // prepare statement
+            myStmt = myConn.prepareStatement("delete from person where NIC=?");
+            
+            //set param
+            myStmt.setString(1, nic);
+            
+            //execute statement
+            myStmt.executeUpdate();
+        }
+        finally{
+            close(myStmt);
+        }
+    }
     private void close(Statement myStmt, ResultSet myRs) throws SQLException {
 		close(null, myStmt, myRs);	
     }

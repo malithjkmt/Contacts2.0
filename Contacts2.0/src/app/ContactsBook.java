@@ -49,8 +49,9 @@ public class ContactsBook extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnNewContact = new javax.swing.JButton();
+        btnUpdateContact = new javax.swing.JButton();
+        btnDeleteContact = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,17 +81,24 @@ public class ContactsBook extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        jButton1.setText("Add New Contact");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNewContact.setText("Add New Contact");
+        btnNewContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNewContactActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Update Contact");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateContact.setText("Update Contact");
+        btnUpdateContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnUpdateContactActionPerformed(evt);
+            }
+        });
+
+        btnDeleteContact.setText("Delete Contact");
+        btnDeleteContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteContactActionPerformed(evt);
             }
         });
 
@@ -100,18 +108,21 @@ public class ContactsBook extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNewContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(268, 268, 268))
+                .addComponent(btnUpdateContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDeleteContact)
+                .addGap(141, 141, 141))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNewContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnUpdateContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDeleteContact))
                 .addContainerGap())
         );
 
@@ -195,7 +206,7 @@ public class ContactsBook extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
         try {
             //create dialog
             AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false);
@@ -207,9 +218,9 @@ public class ContactsBook extends javax.swing.JFrame {
             Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnNewContactActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnUpdateContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateContactActionPerformed
         // get the selected row
         int row = table.getSelectedRow();
         
@@ -229,7 +240,40 @@ public class ContactsBook extends javax.swing.JFrame {
         } catch (IOException | SQLException ex) {
             Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnUpdateContactActionPerformed
+
+    private void btnDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteContactActionPerformed
+        try{
+            //get selected row
+            int row = table.getSelectedRow();
+            
+            //make sure a row is selected
+            if(row<0){
+                JOptionPane.showMessageDialog(rootPane, "You must select a contact", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //get confirmation from the user to delete
+            int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Contact!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(response != JOptionPane.YES_OPTION){
+                return;
+            }
+            
+            // get the current Person
+            Person tempPerson = (Person)table.getValueAt(row, PersonTableModel.OBJECT_COL);
+            
+            // delete the person
+            personDAC.deletePerson(tempPerson.getNic());
+            
+            // refresh GUI
+            
+            // show success message
+            JOptionPane.showMessageDialog(ContactsBook.this, "Contact deleted successfully", "Contact deleted", JOptionPane.INFORMATION_MESSAGE);
+                       
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(ContactsBook.this, "Error deleting the contact"+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }//GEN-LAST:event_btnDeleteContactActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,9 +311,10 @@ public class ContactsBook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeleteContact;
+    private javax.swing.JButton btnNewContact;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnUpdateContact;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
