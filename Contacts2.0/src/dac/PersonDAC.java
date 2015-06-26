@@ -158,37 +158,35 @@ public class PersonDAC {
         
         try{
             //prepare the statement
-            myStmt = myConn.prepareStatement("update person"
-            +" set 1=?, 2=?, 3=?, 4=?,5=?,6=?, 7=?, 8=?, 9=?, 10=?, 11=?, 12=?, 13=?, 14=?, 15=?, 16=?, 17=?, 18=?, 19=?, 20=?, 21=?, 22=?, 23=?, 24=?, where 5=?");
+            myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, AccountType=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=? where NIC=?");// Why this Group has to be `Group` ?????
             
             // set params
             myStmt.setString(1,person.getFirstName() );
             myStmt.setString(2, person.getLastName() );
             myStmt.setString(3, person.getGroup() );
             myStmt.setString(4, person.getTags());
-            //myStmt.setString(5, person.getNic() );
-            myStmt.setString(6, person.getSex());
-            myStmt.setString(7, person.getMobileOne());
-            myStmt.setString(8, person.getMobileTwo());
-            myStmt.setString(9, person.getHome());
-            myStmt.setString(10, person.getOffice());
-            myStmt.setString(11, person.getFax());
-            myStmt.setString(12, person.getPersonalAddress());
-            myStmt.setString(13, person.getOfficeAddress());
-            myStmt.setString(14, person.getBusiness());
-            myStmt.setString(15, person.getNotes());
-            myStmt.setString(16, person.getBirthday());
+            myStmt.setString(5, person.getSex());
+            myStmt.setString(6, person.getMobileOne());
+            myStmt.setString(7, person.getMobileTwo());
+            myStmt.setString(8, person.getHome());
+            myStmt.setString(9, person.getOffice());
+            myStmt.setString(10, person.getFax());
+            myStmt.setString(11, person.getPersonalAddress());
+            myStmt.setString(12, person.getOfficeAddress());
+            myStmt.setString(13, person.getBusiness());
+            myStmt.setString(14, person.getNotes());
+            myStmt.setString(15, person.getBirthday());
             //myStmt.setBytes(17, "jjjuj");//check
-            myStmt.setString(17, person.getAcNumber());
-            myStmt.setString(18, person.getNickName());
-            myStmt.setString(19, person.getBranch());
-            myStmt.setString(20, person.getCifNo());
-            myStmt.setString(21, person.getAcType());
-            myStmt.setString(22, person.getEmailPersonal());
-            myStmt.setString(23, person.getEmailBusiness());
-            myStmt.setString(24, person.getWebPagePersonal());
-            myStmt.setString(25, person.getWebPageBusiness());
-             myStmt.setString(5, person.getNic());
+            myStmt.setString(16, person.getAcNumber());
+            myStmt.setString(17, person.getNickName());
+            myStmt.setString(18, person.getBranch());
+            myStmt.setString(19, person.getCifNo());
+            myStmt.setString(20, person.getAcType());
+            myStmt.setString(21, person.getEmailPersonal());
+            myStmt.setString(22, person.getEmailBusiness());
+            myStmt.setString(23, person.getWebPagePersonal());
+            myStmt.setString(24, person.getWebPageBusiness());
+             myStmt.setString(25, person.getNic());
             
             //execute SQL
             myStmt.executeUpdate();

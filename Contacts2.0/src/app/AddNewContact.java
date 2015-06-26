@@ -40,6 +40,7 @@ public class AddNewContact extends javax.swing.JDialog {
         if(updateMode){
             setTitle("Update Contact");
             //call the method to populate gui with current person details
+            populateGUI(selectedPerson);
         }
     }
 
@@ -781,7 +782,7 @@ public class AddNewContact extends javax.swing.JDialog {
         if(updateMode){
             tempPerson = selectedPerson;
             
-            // this should be optimizes to selsect from only updated fields...
+            // this should be optimizes to select from only updated fields...
             tempPerson.setFirstName(firstName);
             tempPerson.setLastName(lastName);
             tempPerson.setGroup(group);
@@ -831,10 +832,40 @@ public class AddNewContact extends javax.swing.JDialog {
             //refresh GUI 
             
             // show success message
-            JOptionPane.showMessageDialog(null, "Employee added successfully");
+            JOptionPane.showMessageDialog(null, "Contact saved successfully");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+    }
+    //populate GUI with a given person object
+    public void populateGUI(Person person){
+        firstNameTxt.setText(person.getFirstName());
+        lastNameTxt.setText(person.getLastName());
+        groupCmb.setSelectedItem(person.getGroup());
+        tagsCmb.setSelectedItem(person.getTags());
+        nicTxt.setText(person.getNic());
+        sexTxt.setText(person.getSex());
+        mobile1Txt.setText(person.getMobileOne());
+        mobile2Txt.setText(person.getMobileTwo());
+        homeTxt.setText(person.getHome());
+        phoneOfficeTxt.setText(person.getOffice());
+        FaxTxt.setText(person.getFax());
+        addressPersonalTxt.setText(person.getPersonalAddress());
+        addressBusinessTxt.setText(person.getOfficeAddress());
+        businessNameTxt.setText(person.getBusiness());
+        notesTxt.setText(person.getNotes());
+        dobTxt.setText(person.getBirthday());
+        //person_image // later
+        accountNOTxt.setText(person.getAcNumber());
+        nickNameTxt.setText(person.getNickName());
+        branchTxt.setText(person.getBranch());
+        cifTxt.setText(person.getCifNo());
+        accountTypeCmb.setSelectedItem(person.getAcType());
+        emailPersonalTxt.setText(person.getEmailPersonal());
+        emailBusinessTxt.setText(person.getEmailBusiness());
+        webPagePersonalTxt.setText(person.getWebPagePersonal());
+        webPageBusinessTxt.setText(person.getWebPageBusiness());
+       
     }
     
     
