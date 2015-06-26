@@ -85,7 +85,7 @@
                 <Column editable="true" title="Last Name" type="java.lang.Object"/>
                 <Column editable="true" title="Malith" type="java.lang.Object"/>
                 <Column editable="true" title="NIC" type="java.lang.Object"/>
-                <Column editable="true" title="Title 4A" type="java.lang.Object"/>
+                <Column editable="true" title="Account No" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>
@@ -162,6 +162,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Update Contact"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

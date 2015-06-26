@@ -18,13 +18,29 @@ import javax.swing.JOptionPane;
  */
 public class AddNewContact extends javax.swing.JDialog {
     private PersonDAC personDAC;
+    
+    private Person selectedPerson = null;
+    private boolean updateMode = false;
     /**
      * Creates new form AddNewContact
      */
-    public AddNewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException {
-        super(parent, modal);
-        this.personDAC = new PersonDAC();
+    public AddNewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException { // do I need this???
+        super(parent, modal);         
         initComponents();
+    }
+    
+    public AddNewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode) throws IOException, SQLException {
+        super(parent, modal);
+        
+        this.personDAC = personDAC; // fix this by receiving the personDAC made in ContatsBook theough the constructer
+        this.selectedPerson = selectedPerson;
+        this.updateMode = updateMode;
+        initComponents();
+        
+        if(updateMode){
+            setTitle("Update Contact");
+            //call the method to populate gui with current person details
+        }
     }
 
     /**
@@ -110,7 +126,7 @@ public class AddNewContact extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         groupCmb = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
-        saveBtn = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add New Contact");
@@ -675,10 +691,10 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
-        saveBtn.setText("Save");
-        saveBtn.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveBtnActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
@@ -700,7 +716,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveBtn)
+                .addComponent(btnSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelBtn)
                 .addGap(33, 33, 33))
@@ -719,7 +735,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveBtn)
+                    .addComponent(btnSave)
                     .addComponent(cancelBtn))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -727,8 +743,12 @@ public class AddNewContact extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
+        savePerson();
+    }//GEN-LAST:event_btnSaveActionPerformed
+    
+    public void savePerson(){
         //get the person info from GUI
         String firstName = firstNameTxt.getText();
         String lastName = lastNameTxt.getText();
@@ -757,11 +777,52 @@ public class AddNewContact extends javax.swing.JDialog {
         String webPagePersonal = webPagePersonalTxt.getText();
         String webPageBusiness = webPageBusinessTxt.getText();
 
-        Person person = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+        Person tempPerson = null; // this will get the updated contact or a brandnew contact to be sent to the PersonDAC
+        if(updateMode){
+            tempPerson = selectedPerson;
+            
+            // this should be optimizes to selsect from only updated fields...
+            tempPerson.setFirstName(firstName);
+            tempPerson.setLastName(lastName);
+            tempPerson.setGroup(group);
+            tempPerson.setTags(tags);
+            tempPerson.setNic(nic);
+            tempPerson.setSex(sex);
+            tempPerson.setMobileOne(mobileOne);
+            tempPerson.setMobileTwo(mobileTwo);
+            tempPerson.setHome(home);
+            tempPerson.setOffice(office);
+            tempPerson.setFax(fax);
+            tempPerson.setPersonalAddress(personalAddress);
+            tempPerson.setOfficeAddress(officeAddress);
+            tempPerson.setBusiness(business);
+            tempPerson.setNotes(notes);
+            tempPerson.setBirthday(birthday);
+            tempPerson.setAcNumber(acNumber);
+            tempPerson.setNickName(nickName);
+            tempPerson.setBranch(branch);
+            tempPerson.setCifNo(cifNo);
+            tempPerson.setAcType(acType);
+            tempPerson.setEmailPersonal(emailPersonal);
+            tempPerson.setEmailBusiness(emailBusiness);
+            tempPerson.setWebPagePersonal(webPagePersonal);
+            tempPerson.setWebPageBusiness(webPageBusiness);
+            
+        }
+        else{
+            tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
 
+        }
+        
+        //save person to the database
         try {
-            //save person to the database
-            personDAC.addPerson(person);
+            
+            if(updateMode){
+                personDAC.updatePerson(tempPerson);
+            }
+            else{
+                personDAC.addPerson(tempPerson);
+            }
             
             //close addNewContact dialog
             setVisible(false);
@@ -774,18 +835,19 @@ public class AddNewContact extends javax.swing.JDialog {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-    }//GEN-LAST:event_saveBtnActionPerformed
-
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    /*public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+      /*  try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -804,7 +866,7 @@ public class AddNewContact extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+      /*  java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 AddNewContact dialog;
                 try {
@@ -824,7 +886,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 
             }
         });
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField FaxTxt;
@@ -834,6 +896,7 @@ public class AddNewContact extends javax.swing.JDialog {
     private javax.swing.JTextArea addressPersonalTxt;
     private javax.swing.JTextField ageTxt;
     private javax.swing.JTextField branchTxt;
+    private javax.swing.JButton btnSave;
     private javax.swing.JTextField businessNameTxt;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JTextField cifTxt;
@@ -897,7 +960,6 @@ public class AddNewContact extends javax.swing.JDialog {
     private javax.swing.JTextArea notesTxt;
     private javax.swing.JTextField path;
     private javax.swing.JTextField phoneOfficeTxt;
-    private javax.swing.JButton saveBtn;
     private javax.swing.JTextField sexTxt;
     private javax.swing.JComboBox tagsCmb;
     private javax.swing.JTextField webPageBusinessTxt;

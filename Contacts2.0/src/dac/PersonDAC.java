@@ -159,14 +159,14 @@ public class PersonDAC {
         try{
             //prepare the statement
             myStmt = myConn.prepareStatement("update person"
-            +" set 1=?, 2=?, 3=?, 4=?, 5=?, 6=?, 7=?, 8=?, 9=?, 10=?, 11=?, 12=?, 13=?, 14=?, 15=?, 16=?, 17=?, 18=?, 19=?, 20=?, 21=?, 22=?, 23=?, 24=?, 25=?" + " where id=?");
+            +" set 1=?, 2=?, 3=?, 4=?,5=?,6=?, 7=?, 8=?, 9=?, 10=?, 11=?, 12=?, 13=?, 14=?, 15=?, 16=?, 17=?, 18=?, 19=?, 20=?, 21=?, 22=?, 23=?, 24=?, where 5=?");
             
             // set params
             myStmt.setString(1,person.getFirstName() );
             myStmt.setString(2, person.getLastName() );
             myStmt.setString(3, person.getGroup() );
             myStmt.setString(4, person.getTags());
-            myStmt.setString(5, person.getNic() );
+            //myStmt.setString(5, person.getNic() );
             myStmt.setString(6, person.getSex());
             myStmt.setString(7, person.getMobileOne());
             myStmt.setString(8, person.getMobileTwo());
@@ -188,6 +188,7 @@ public class PersonDAC {
             myStmt.setString(23, person.getEmailBusiness());
             myStmt.setString(24, person.getWebPagePersonal());
             myStmt.setString(25, person.getWebPageBusiness());
+             myStmt.setString(5, person.getNic());
             
             //execute SQL
             myStmt.executeUpdate();

@@ -62,7 +62,7 @@ public class ContactsBook extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Last Name", "Malith", "NIC", "Title 4A"
+                "Last Name", "Malith", "NIC", "Account No"
             }
         ));
         jScrollPane1.setViewportView(table);
@@ -88,6 +88,11 @@ public class ContactsBook extends javax.swing.JFrame {
         });
 
         jButton2.setText("Update Contact");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,7 +198,7 @@ public class ContactsBook extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             //create dialog
-            AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled);
+            AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false);
             //show dialog
             newContactDialog.setVisible(true);
         } catch (IOException ex) {
@@ -203,6 +208,28 @@ public class ContactsBook extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // get the selected row
+        int row = table.getSelectedRow();
+        
+        //make sure a row is selected
+        if(row<0){
+            JOptionPane.showMessageDialog(ContactsBook.this, "You must select a contact first!","Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // get the current Person
+        Person tempPerson = (Person) table.getValueAt(row, PersonTableModel.OBJECT_COL);
+        
+        try {
+            //create dialog
+            AddNewContact dialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true);
+            // show dialog
+            dialog.setVisible(true);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

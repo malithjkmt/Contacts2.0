@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Malith
  */
 public class PersonTableModel extends AbstractTableModel {
-    
+        public static final int OBJECT_COL = -1;
 	private static final int LAST_NAME_COL = 0;
 	private static final int FIRST_NAME_COL = 1;
 	private static final int NIC_COL = 2;
@@ -52,6 +52,8 @@ public class PersonTableModel extends AbstractTableModel {
 			return tempPerson.getNic();
 		case AC_NO_COL:
 			return tempPerson.getAcNumber();
+                case OBJECT_COL:
+			return tempPerson;
 		default:
 			return tempPerson.getLastName();
 		}
