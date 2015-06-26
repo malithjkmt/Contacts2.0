@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app;
 
 import dac.PersonDAC;
@@ -15,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Malith
+ * @author Malith - malith.13@cse.mrt.ac.lk
  */
 public class ContactsBook extends javax.swing.JFrame {
     PersonDAC personDAC;
@@ -24,11 +19,12 @@ public class ContactsBook extends javax.swing.JFrame {
      */
     public ContactsBook() {
         initComponents();
-         // create the DAO
+        
+         // create the DAO (this is the one and only Data Access Object that I'm making)
         try {
             personDAC = new PersonDAC();
         } catch (IOException | SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -172,29 +168,24 @@ public class ContactsBook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // Get last name from the text field
-
-        // Call DAC and get employees for the last name
-
-        // If last name is empty, then get all employees
-
-        // Print out employees				
-
+    	
         try {
-                String lastName = txtSearch.getText();
+            // Get last name from the text field
+            String lastName = txtSearch.getText();
 
-                List<Person> person = null;
+            List<Person> person = null;
 
-                if (lastName != null && lastName.trim().length() > 0) {
-                        person = personDAC.searchPerson(lastName);
-                } else {
-                        person = personDAC.getAllPerson();
-                }
+            // Call DAC and get employees relevent to the "last name"
+            if (lastName != null && lastName.trim().length() > 0) {
+                    person = personDAC.searchPerson(lastName);
+            } else {
+                    // If last name is empty, then get all employees
+                    person = personDAC.getAllPerson();
+            }
 
-                // create the model and update the "table"
-                PersonTableModel model = new PersonTableModel(person);
-
-                table.setModel(model);
+            // create the model and update the "table"
+            PersonTableModel model = new PersonTableModel(person);
+            table.setModel(model);
 
         } catch (Exception exc) {
                 JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE); 
@@ -207,9 +198,7 @@ public class ContactsBook extends javax.swing.JFrame {
             AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false, ContactsBook.this);
             //show dialog
             newContactDialog.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -224,9 +213,10 @@ public class ContactsBook extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(ContactsBook.this, "You must select a contact first!","Selection Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // get the current Person
+        // get the selected current Person
         Person tempPerson = (Person) table.getValueAt(row, PersonTableModel.OBJECT_COL);
         
+        // open the update dialog box (same as add new contact)
         try {
             //create dialog
             AddNewContact dialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true, ContactsBook.this);
@@ -247,12 +237,11 @@ public class ContactsBook extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "You must select a contact", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            //get confirmation from the user to delete
+            //get confirmation from the user before deleting
             int response = JOptionPane.showConfirmDialog(rootPane, "This will delete this Contact!!!", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if(response != JOptionPane.YES_OPTION){
                 return;
             }
-            
             // get the current Person
             Person tempPerson = (Person)table.getValueAt(row, PersonTableModel.OBJECT_COL);
             
@@ -271,14 +260,16 @@ public class ContactsBook extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
+    /**
+     * method will refresh the GUI showing the latest update on the table
+     * */
     public void refreshGUI(){
          try {
-                
+                // get all person theough the DAC to a tempory List
                 List personList = personDAC.getAllPerson();
                
                 // create the model and update the "table"
                 PersonTableModel model = new PersonTableModel(personList);
-
                 table.setModel(model);
 
         } catch (Exception exc) {

@@ -16,7 +16,7 @@ public class PersonTableModel extends AbstractTableModel {
 	private static final int AC_NO_COL = 3;
 
 	private String[] columnNames = { "Last Name", "First Name", "NIC",
-			"Account No" };
+			"Account No" };// this should come from user input..... user can customize what fields to show
 	private List<Person> person;
 
 	public PersonTableModel(List<Person> thePerson) {

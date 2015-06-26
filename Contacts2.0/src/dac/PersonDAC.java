@@ -13,12 +13,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Properties;
 
 /**
  *
- * @author Malith
+ * @author Malith  - malith.13@cse.mrt.ac.lk
  */
 public class PersonDAC {
     private final Connection myConn;
@@ -37,57 +36,62 @@ public class PersonDAC {
         System.out.println("DB connection successful to : " + dburl);
          
     }
-    //get all person
-    public List<Person> getAllPerson() throws Exception {
-		List<Person> list = new ArrayList<>();
-		
-		Statement myStmt = null;
-		ResultSet myRs = null; 
-		
-		try {
-			myStmt = myConn.createStatement();
-			myRs = myStmt.executeQuery("select * from person");
-			
-			while (myRs.next()) {
-				Person tempPerson = convertRowToPerson(myRs);
-				list.add(tempPerson);
-			}
-
-			return list;		
-		}
-		finally {
-			close(myStmt, myRs);
-		}
-	}
     
-    //search a person
-    public List<Person> searchPerson(String lastName) throws Exception {
+    /**
+     * get all person to a List
+     * */
+    public List<Person> getAllPerson() throws Exception {
+        
         List<Person> list = new ArrayList<>();
-
-        PreparedStatement myStmt = null;
-        ResultSet myRs = null;
+        Statement myStmt = null;
+        ResultSet myRs = null; 
 
         try {
-                lastName += "%";
-                myStmt = myConn.prepareStatement("select * from person where lastName like ?");
-
-                myStmt.setString(1, lastName);
-
-                myRs = myStmt.executeQuery();
-
+                myStmt = myConn.createStatement();
+                myRs = myStmt.executeQuery("select * from person");
+                
+                // load each person object to the Person List
                 while (myRs.next()) {
                         Person tempPerson = convertRowToPerson(myRs);
                         list.add(tempPerson);
                 }
-
-                return list;
+                return list;		
         }
         finally {
                 close(myStmt, myRs);
         }
     }
     
-    // add a new person(contact)
+    /**
+     * search persons for given input parameters like last name, tel number, id, AC number
+     * */
+    public List<Person> searchPerson(String lastName) throws Exception {
+        
+        List<Person> list = new ArrayList<>();
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        try {
+            lastName += "%";
+            myStmt = myConn.prepareStatement("select * from person where lastName like ?");
+            myStmt.setString(1, lastName);
+            myRs = myStmt.executeQuery();
+            
+            //load persons to a Person List
+            while (myRs.next()) {
+                    Person tempPerson = convertRowToPerson(myRs);
+                    list.add(tempPerson);
+            }
+            return list;
+        }
+        finally {
+                close(myStmt, myRs);
+        }
+    }
+    
+    /**
+     * add a new person
+     * */
     public void addPerson(Person person) throws SQLException{
         PreparedStatement myStmt = null;
         try{
@@ -131,31 +135,19 @@ public class PersonDAC {
             myStmt.setString(25, person.getWebPagePersonal());
             myStmt.setString(26, person.getWebPageBusiness());*/
             
-            // execute SQL
+            // execute the statement
             myStmt.executeUpdate();
         }
         finally{
             close(myStmt);
         }
     }
-    private static void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
-
-		if (myRs != null) {
-			myRs.close();
-		}
-
-		if (myStmt != null) {
-			myStmt.close();
-		}
-		
-		if (myConn != null) {
-			myConn.close();
-		}
-	}
-    // update person
+   
+    /**
+     * update person
+     * */
     public void updatePerson (Person person, String previousNIC) throws SQLException{
-        PreparedStatement myStmt = null;
-        
+        PreparedStatement myStmt = null; 
         try{
             //prepare the statement
             myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, NIC=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, AccountType=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=? where NIC=?");// Why this Group has to be `Group` ?????
@@ -189,13 +181,19 @@ public class PersonDAC {
             myStmt.setString(25, person.getWebPageBusiness());
             myStmt.setString(26, previousNIC);
             
-            //execute SQL
+            //execute statement
             myStmt.executeUpdate();
         }
         finally {
             close(myStmt);
         }
     }
+    
+    /**
+     * delete person
+     * @param nic
+     * @throws SQLException 
+     */
     public void deletePerson (String nic) throws SQLException{
         PreparedStatement myStmt = null;
         try{
@@ -212,19 +210,40 @@ public class PersonDAC {
             close(myStmt);
         }
     }
+    
+    /**
+     * close connections
+     * @param myConn
+     * @param myStmt
+     * @param myRs
+     * @throws SQLException 
+     */
+    private static void close(Connection myConn, Statement myStmt, ResultSet myRs) throws SQLException {
+
+        if (myRs != null) {
+                myRs.close();
+        }
+        if (myStmt != null) {
+                myStmt.close();
+        }
+        if (myConn != null) {
+                myConn.close();
+        }
+    }
+    
     private void close(Statement myStmt, ResultSet myRs) throws SQLException {
 		close(null, myStmt, myRs);	
     }
     private void close(Statement myStmt) throws SQLException {
 		close(null, myStmt, null);	
     }
-    
-    public static void main(String args[]) throws IOException, SQLException, Exception{
-        PersonDAC dac = new PersonDAC();
-        System.out.println(dac.getAllPerson());
-    }
-    
-    // convert a row in DB in to a Person
+        
+    /**
+     *  convert a row from DB in to a Person
+     * @param myRs
+     * @return
+     * @throws SQLException 
+     */
     private Person convertRowToPerson(ResultSet myRs) throws SQLException {
 				
         String firstName = myRs.getString(1);
@@ -255,7 +274,6 @@ public class PersonDAC {
         String webPageBusiness = myRs.getString(25);
 		
 	Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
-
 	return tempPerson;
     }
     

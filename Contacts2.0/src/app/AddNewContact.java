@@ -1,28 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package app;
 
 import dac.PersonDAC;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Malith
+ * @author Malith - malith.13@cse.mrt.ac.lk
  */
 public class AddNewContact extends javax.swing.JDialog {
-    private PersonDAC personDAC;
-    
+    // make instances to be initialized in the constructer
+    private PersonDAC personDAC; 
+    private ContactsBook contactBook;
+    private String previousNIC;
+
     private Person selectedPerson = null;
     private boolean updateMode = false;
-    private String previousNIC;
-    private ContactsBook contactBook;
+  
     /**
      * Creates new form AddNewContact
      */
@@ -34,10 +30,12 @@ public class AddNewContact extends javax.swing.JDialog {
     public AddNewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
         super(parent, modal);
         
-        this.personDAC = personDAC; // fix this by receiving the personDAC made in ContatsBook theough the constructer
+        this.personDAC = personDAC;
+        this.contactBook = contactBook;
+        
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
-        this.contactBook = contactBook;
+        
         initComponents();
         
         if(updateMode){
@@ -749,12 +747,11 @@ public class AddNewContact extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
-        savePerson();
-        
+        savePerson();   
     }//GEN-LAST:event_btnSaveActionPerformed
     
     public void savePerson(){
+        
         //get the person info from GUI
         String firstName = firstNameTxt.getText();
         String lastName = lastNameTxt.getText();
@@ -783,7 +780,7 @@ public class AddNewContact extends javax.swing.JDialog {
         String webPagePersonal = webPagePersonalTxt.getText();
         String webPageBusiness = webPageBusinessTxt.getText();
 
-        Person tempPerson = null; // this will get the updated contact or a brandnew contact to be sent to the PersonDAC
+        Person tempPerson = null; // this will receive the updated contact or a brandnew contact to be sent to the PersonDAC
         if(updateMode){
             tempPerson = selectedPerson;
             
@@ -817,7 +814,6 @@ public class AddNewContact extends javax.swing.JDialog {
         }
         else{
             tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
-
         }
         
         //save person to the database
@@ -843,8 +839,11 @@ public class AddNewContact extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
+    
     //populate GUI with a given person object
     public void populateGUI(Person person){
+        
+        //get data from person object and set them in GUI
         firstNameTxt.setText(person.getFirstName());
         lastNameTxt.setText(person.getLastName());
         groupCmb.setSelectedItem(person.getGroup());
