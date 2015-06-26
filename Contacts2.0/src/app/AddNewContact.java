@@ -21,6 +21,7 @@ public class AddNewContact extends javax.swing.JDialog {
     
     private Person selectedPerson = null;
     private boolean updateMode = false;
+    private String previousNIC;
     /**
      * Creates new form AddNewContact
      */
@@ -41,6 +42,7 @@ public class AddNewContact extends javax.swing.JDialog {
             setTitle("Update Contact");
             //call the method to populate gui with current person details
             populateGUI(selectedPerson);
+            previousNIC = selectedPerson.getNic();
         }
     }
 
@@ -819,7 +821,7 @@ public class AddNewContact extends javax.swing.JDialog {
         try {
             
             if(updateMode){
-                personDAC.updatePerson(tempPerson);
+                personDAC.updatePerson(tempPerson, previousNIC);
             }
             else{
                 personDAC.addPerson(tempPerson);
