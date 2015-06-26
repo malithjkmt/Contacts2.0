@@ -196,11 +196,6 @@ public class ContactsBook extends javax.swing.JFrame {
 
                 table.setModel(model);
 
-                /*
-                for (Employee temp : employees) {
-                        System.out.println(temp);
-                }
-                */
         } catch (Exception exc) {
                 JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE); 
         }
@@ -209,7 +204,7 @@ public class ContactsBook extends javax.swing.JFrame {
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
         try {
             //create dialog
-            AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false);
+            AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false, ContactsBook.this);
             //show dialog
             newContactDialog.setVisible(true);
         } catch (IOException ex) {
@@ -234,7 +229,7 @@ public class ContactsBook extends javax.swing.JFrame {
         
         try {
             //create dialog
-            AddNewContact dialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true);
+            AddNewContact dialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true, ContactsBook.this);
             // show dialog
             dialog.setVisible(true);
         } catch (IOException | SQLException ex) {
@@ -265,6 +260,7 @@ public class ContactsBook extends javax.swing.JFrame {
             personDAC.deletePerson(tempPerson.getNic());
             
             // refresh GUI
+            refreshGUI();
             
             // show success message
             JOptionPane.showMessageDialog(ContactsBook.this, "Contact deleted successfully", "Contact deleted", JOptionPane.INFORMATION_MESSAGE);
@@ -275,6 +271,20 @@ public class ContactsBook extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
+    public void refreshGUI(){
+         try {
+                
+                List personList = personDAC.getAllPerson();
+               
+                // create the model and update the "table"
+                PersonTableModel model = new PersonTableModel(personList);
+
+                table.setModel(model);
+
+        } catch (Exception exc) {
+                JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + exc, "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+    }
     /**
      * @param args the command line arguments
      */

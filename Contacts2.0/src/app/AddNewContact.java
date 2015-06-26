@@ -22,6 +22,7 @@ public class AddNewContact extends javax.swing.JDialog {
     private Person selectedPerson = null;
     private boolean updateMode = false;
     private String previousNIC;
+    private ContactsBook contactBook;
     /**
      * Creates new form AddNewContact
      */
@@ -30,12 +31,13 @@ public class AddNewContact extends javax.swing.JDialog {
         initComponents();
     }
     
-    public AddNewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode) throws IOException, SQLException {
+    public AddNewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
         super(parent, modal);
         
         this.personDAC = personDAC; // fix this by receiving the personDAC made in ContatsBook theough the constructer
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
+        this.contactBook = contactBook;
         initComponents();
         
         if(updateMode){
@@ -749,6 +751,7 @@ public class AddNewContact extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
         savePerson();
+        
     }//GEN-LAST:event_btnSaveActionPerformed
     
     public void savePerson(){
@@ -832,6 +835,7 @@ public class AddNewContact extends javax.swing.JDialog {
             dispose();
             
             //refresh GUI 
+            contactBook.refreshGUI();
             
             // show success message
             JOptionPane.showMessageDialog(null, "Contact saved successfully");
