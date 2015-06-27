@@ -65,18 +65,49 @@ public class PersonDAC {
     /**
      * search persons for given input parameters like last name, tel number, id, AC number
      * */
-    public List<Person> searchPerson(String lastName) throws Exception {
+    public List<Person> searchPerson(String keyWord, String searchPara) throws Exception {
         
         List<Person> list = new ArrayList<>();
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
-
+        String query;
         try {
-            lastName += "%";
-            myStmt = myConn.prepareStatement("select * from person where lastName like ?");
-            myStmt.setString(1, lastName);
-            myRs = myStmt.executeQuery();
+            keyWord += "%";
+            switch(searchPara){
+                case "Name":
+                    query = "select * from person where FirstName like ? or LastName like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    myStmt.setString(1, keyWord);
+                    myStmt.setString(2, keyWord);
+                    break;
+                case "phone":
+                    query = "select * from person where MobileOne like ? or MobileTwo like ? or Home like? or Office like ? or Fax like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    myStmt.setString(1, keyWord);
+                    myStmt.setString(2, keyWord);
+                    myStmt.setString(3, keyWord);
+                    myStmt.setString(4, keyWord);
+                    myStmt.setString(5, keyWord);
+                    break;
+                //if "keyWord" in any field in the record, return them
+                case "All":
+                    query = "select * from person where FirstName like ? or LastName like ? or `Group` like ? or Tags like ? or NIC like ? or Sex like ? or MobileOne like ? or MobileTwo like ? or Home like ? or Office like ? or Fax like ? or PersonalAddress like ? or OfficeAddress like ? or Business like ? or Notes like ? or BirthDay like ? or AccountNumber like ? or NickName like ? or Branch like ? or CIFno like ? or AccountType like ? or EmailPersonal like ? or EmailBusiness like ? or WebPagePersonal like ? or WebPageBusiness like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    //set parameters
+                    for(int i=1;i<26;i++){
+                        myStmt.setString(i, keyWord);
+                    }
+                    break;
+                default:
+                    query = "select * from person where "+ searchPara + " like ?";
+                    myStmt = myConn.prepareStatement(query);
+                    myStmt.setString(1, keyWord);
+                    
+            }
             
+            // execute statement
+            myRs = myStmt.executeQuery();          
+                        
             //load persons to a Person List
             while (myRs.next()) {
                     Person tempPerson = convertRowToPerson(myRs);

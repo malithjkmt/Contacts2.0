@@ -58,7 +58,7 @@ public class AddNewContact extends javax.swing.JDialog {
         cancelBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         tagsCmb = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        btnAddTags = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -127,8 +127,8 @@ public class AddNewContact extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         notesTxt = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
-        groupCmb = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        cmbGroup = new javax.swing.JComboBox();
+        btnAddGroup = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -140,7 +140,7 @@ public class AddNewContact extends javax.swing.JDialog {
 
         tagsCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OD", "Loan" }));
 
-        jButton2.setText("+");
+        btnAddTags.setText("+");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -149,7 +149,7 @@ public class AddNewContact extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(tagsCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2))
+                .addComponent(btnAddTags))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +157,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tagsCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)))
+                    .addComponent(btnAddTags)))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
@@ -671,26 +671,31 @@ public class AddNewContact extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Group"));
 
-        groupCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Customer", "Staff" }));
+        cmbGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Customer", "Staff" }));
 
-        jButton1.setText("+");
+        btnAddGroup.setText("+");
+        btnAddGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGroupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnAddGroup)
                 .addGap(44, 44, 44))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(groupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(cmbGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddGroup))
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -749,13 +754,19 @@ public class AddNewContact extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         savePerson();   
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroupActionPerformed
+       AddNewGroup addNewGroup = new AddNewGroup(this, updateMode); // this or AddNewContact.this
+       addNewGroup.setVisible(true);
+        
+    }//GEN-LAST:event_btnAddGroupActionPerformed
     
     public void savePerson(){
         
         //get the person info from GUI
         String firstName = firstNameTxt.getText();
         String lastName = lastNameTxt.getText();
-        String group = groupCmb.getSelectedItem().toString();
+        String group = cmbGroup.getSelectedItem().toString();
         String tags = tagsCmb.getSelectedItem().toString();
         String nic = nicTxt.getText();
         String sex = sexTxt.getText();
@@ -846,7 +857,7 @@ public class AddNewContact extends javax.swing.JDialog {
         //get data from person object and set them in GUI
         firstNameTxt.setText(person.getFirstName());
         lastNameTxt.setText(person.getLastName());
-        groupCmb.setSelectedItem(person.getGroup());
+        cmbGroup.setSelectedItem(person.getGroup());
         tagsCmb.setSelectedItem(person.getTags());
         nicTxt.setText(person.getNic());
         sexTxt.setText(person.getSex());
@@ -932,18 +943,18 @@ public class AddNewContact extends javax.swing.JDialog {
     private javax.swing.JTextArea addressPersonalTxt;
     private javax.swing.JTextField ageTxt;
     private javax.swing.JTextField branchTxt;
+    private javax.swing.JButton btnAddGroup;
+    private javax.swing.JButton btnAddTags;
     private javax.swing.JButton btnSave;
     private javax.swing.JTextField businessNameTxt;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JTextField cifTxt;
+    private javax.swing.JComboBox cmbGroup;
     private javax.swing.JTextField dobTxt;
     private javax.swing.JTextField emailBusinessTxt;
     private javax.swing.JTextField emailPersonalTxt;
     private javax.swing.JTextField firstNameTxt;
-    private javax.swing.JComboBox groupCmb;
     private javax.swing.JTextField homeTxt;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
