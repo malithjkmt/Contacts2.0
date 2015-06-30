@@ -5,20 +5,29 @@
  */
 package app;
 
+import dac.GroupDAC;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Malith
  */
 public class AddNewGroup extends javax.swing.JDialog {
     AddNewContact addNewContact;
+    GroupDAC groupDAC;
+    
 
     /**
      * Creates new form AddNewGroup
      */
-    public AddNewGroup(AddNewContact parent, boolean modal) {
+    public AddNewGroup(AddNewContact parent, boolean modal, GroupDAC groupDAC) {
         super(parent, modal);
         initComponents();
         addNewContact = parent;
+        this.groupDAC = groupDAC;
     }
 
    
@@ -112,8 +121,23 @@ public class AddNewGroup extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         String name = txtNewGroup.getText();
-        
-        // send to the db
+        //create a Group object
+        Group group = new Group(name);
+        try {
+            // send to the db
+            groupDAC.addGroup(group);
+            //close addNewGroup dialog
+            setVisible(false);
+            dispose();
+            
+            //refresh comboBox
+            
+            // show success message
+            JOptionPane.showMessageDialog(null, "New Group added successfully");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        addNewContact.getCmbGroup().addItem(name);
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

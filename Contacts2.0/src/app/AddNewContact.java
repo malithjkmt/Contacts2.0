@@ -1,9 +1,13 @@
 
 package app;
 
+import dac.GroupDAC;
 import dac.PersonDAC;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,6 +17,8 @@ import javax.swing.JOptionPane;
 public class AddNewContact extends javax.swing.JDialog {
     // make instances to be initialized in the constructer
     private PersonDAC personDAC; 
+    private GroupDAC groupDAC;
+    
     private ContactsBook contactBook;
     private String previousNIC;
 
@@ -32,11 +38,17 @@ public class AddNewContact extends javax.swing.JDialog {
         
         this.personDAC = personDAC;
         this.contactBook = contactBook;
+        this.groupDAC = new GroupDAC(personDAC.getMyConn()); // is this ok?
         
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
         
+    
+        
         initComponents();
+        populateGroupCmbBox();
+       
+        
         
         if(updateMode){
             setTitle("Update Contact");
@@ -671,8 +683,6 @@ public class AddNewContact extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Group"));
 
-        cmbGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Customer", "Staff" }));
-
         btnAddGroup.setText("+");
         btnAddGroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -750,13 +760,31 @@ public class AddNewContact extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void populateGroupCmbBox(){
+         // populate group combo box
+        // get groups to a list from the db
+        List<Group> groupList = null;
+        try {
+            groupList = groupDAC.getAllGroups();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(AddNewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+        
+        
+        // load the combo box
+        for (Group groupList1 : groupList) {
+            cmbGroup.addItem(groupList1.getGroupName());
+        }
+    }
+    public javax.swing.JComboBox getCmbGroup(){
+        return cmbGroup;
+    }
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         savePerson();   
     }//GEN-LAST:event_btnSaveActionPerformed
-
+    
     private void btnAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroupActionPerformed
-       AddNewGroup addNewGroup = new AddNewGroup(this, updateMode); // this or AddNewContact.this
+       AddNewGroup addNewGroup = new AddNewGroup(this, updateMode,groupDAC); // this or AddNewContact.this
        addNewGroup.setVisible(true);
         
     }//GEN-LAST:event_btnAddGroupActionPerformed

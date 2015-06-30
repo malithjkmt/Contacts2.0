@@ -3,6 +3,7 @@ package app;
 
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import dac.DbConnector;
 import dac.PersonDAC;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
  * @author Malith - malith.13@cse.mrt.ac.lk
  */
 public class ContactsBook extends javax.swing.JFrame {
+    DbConnector dbConnector;
     PersonDAC personDAC;
     /**
      * Creates new form ContactsBook
@@ -31,7 +33,7 @@ public class ContactsBook extends javax.swing.JFrame {
             Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
         }*/
         initComponents();
-        
+        //quick view pane
     /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
     public void valueChanged(ListSelectionEvent event) {
         // do some actions here, for example
@@ -43,8 +45,10 @@ public class ContactsBook extends javax.swing.JFrame {
     });*/
          
         try {
-            // create the DAO (this is the one and only Data Access Object that I'm making)
-            personDAC = new PersonDAC();
+            // create the central DAO
+            dbConnector = new DbConnector();
+            // make a DAO for Person class by sending in the DB Connection from dbConnector
+            personDAC = new PersonDAC(dbConnector.getMyConn());
             
         } catch (IOException | SQLException ex) {
             JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
