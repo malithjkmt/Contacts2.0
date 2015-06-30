@@ -92,7 +92,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="tagsCmb" min="-2" pref="317" max="-2" attributes="0"/>
+                  <Component id="cmbTags" min="-2" pref="317" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnAddTags" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -103,7 +103,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tagsCmb" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cmbTags" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAddTags" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -111,13 +111,10 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JComboBox" name="tagsCmb">
+        <Component class="javax.swing.JComboBox" name="cmbTags">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="OD"/>
-                <StringItem index="1" value="Loan"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
         </Component>
@@ -125,6 +122,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddTagsActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -244,7 +244,7 @@
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jPanel5" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
@@ -278,7 +278,7 @@
                               <Component id="cifTxt" alignment="0" max="32767" attributes="0"/>
                               <Component id="branchTxt" alignment="0" max="32767" attributes="0"/>
                               <Component id="accountNOTxt" alignment="1" pref="232" max="32767" attributes="0"/>
-                              <Component id="accountTypeCmb" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtAcType" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -298,7 +298,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="accountTypeCmb" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtAcType" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -331,20 +331,15 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="accountNOTxt">
+                  <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="accountNOTxtFocusLost"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="branchTxt">
                 </Component>
                 <Component class="javax.swing.JTextField" name="cifTxt">
                 </Component>
-                <Component class="javax.swing.JComboBox" name="accountTypeCmb">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="2">
-                        <StringItem index="0" value="SA"/>
-                        <StringItem index="1" value="CA"/>
-                      </StringArray>
-                    </Property>
-                  </Properties>
+                <Component class="javax.swing.JTextField" name="txtAcType">
                 </Component>
               </SubComponents>
             </Container>
@@ -375,8 +370,8 @@
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="sexTxt" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="nicTxt" alignment="1" min="-2" pref="197" max="-2" attributes="0"/>
+                                      <Component id="txtSex" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="txtNic" alignment="1" min="-2" pref="197" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -400,12 +395,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="nicTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtNic" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="sexTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtSex" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -442,9 +437,12 @@
                     <Property name="text" type="java.lang.String" value="DOB"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="nicTxt">
+                <Component class="javax.swing.JTextField" name="txtNic">
+                  <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNicFocusLost"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="sexTxt">
+                <Component class="javax.swing.JTextField" name="txtSex">
                 </Component>
                 <Component class="javax.swing.JTextField" name="ageTxt">
                 </Component>
@@ -518,7 +516,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" pref="84" max="32767" attributes="0"/>
                               <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanel13" alignment="0" max="32767" attributes="0"/>
@@ -565,13 +563,10 @@
                           </Group>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="homeTxt" alignment="0" min="-2" pref="179" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                  <Component id="mobile1Txt" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="mobile2Txt" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="homeTxt" alignment="0" pref="179" max="32767" attributes="0"/>
+                              <Component id="mobile1Txt" max="32767" attributes="0"/>
+                              <Component id="mobile2Txt" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -682,7 +677,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                          <Component id="emailPersonalTxt" min="-2" pref="178" max="-2" attributes="0"/>
+                          <Component id="emailPersonalTxt" min="-2" pref="295" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -794,14 +789,15 @@
                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                                   <Component id="phoneOfficeTxt" min="-2" pref="183" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="FaxTxt" min="-2" max="-2" attributes="0"/>
+                                  <Component id="FaxTxt" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

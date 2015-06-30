@@ -3,6 +3,7 @@ package app;
 
 import dac.GroupDAC;
 import dac.PersonDAC;
+import dac.TagDAC;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +19,7 @@ public class AddNewContact extends javax.swing.JDialog {
     // make instances to be initialized in the constructer
     private PersonDAC personDAC; 
     private GroupDAC groupDAC;
+    private TagDAC tagDAC;
     
     private ContactsBook contactBook;
     private String previousNIC;
@@ -38,7 +40,9 @@ public class AddNewContact extends javax.swing.JDialog {
         
         this.personDAC = personDAC;
         this.contactBook = contactBook;
+        
         this.groupDAC = new GroupDAC(personDAC.getMyConn()); // is this ok?
+        this.tagDAC = new TagDAC(personDAC.getMyConn());
         
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
@@ -47,6 +51,7 @@ public class AddNewContact extends javax.swing.JDialog {
         
         initComponents();
         populateGroupCmbBox();
+        populateTagCmbBox();
        
         
         
@@ -69,7 +74,7 @@ public class AddNewContact extends javax.swing.JDialog {
 
         cancelBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        tagsCmb = new javax.swing.JComboBox();
+        cmbTags = new javax.swing.JComboBox();
         btnAddTags = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -88,14 +93,14 @@ public class AddNewContact extends javax.swing.JDialog {
         accountNOTxt = new javax.swing.JTextField();
         branchTxt = new javax.swing.JTextField();
         cifTxt = new javax.swing.JTextField();
-        accountTypeCmb = new javax.swing.JComboBox();
+        txtAcType = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        nicTxt = new javax.swing.JTextField();
-        sexTxt = new javax.swing.JTextField();
+        txtNic = new javax.swing.JTextField();
+        txtSex = new javax.swing.JTextField();
         ageTxt = new javax.swing.JTextField();
         dobTxt = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
@@ -150,16 +155,19 @@ public class AddNewContact extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tags"));
 
-        tagsCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OD", "Loan" }));
-
         btnAddTags.setText("+");
+        btnAddTags.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTagsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(tagsCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbTags, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddTags))
         );
@@ -168,7 +176,7 @@ public class AddNewContact extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tagsCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddTags)))
         );
 
@@ -226,7 +234,11 @@ public class AddNewContact extends javax.swing.JDialog {
 
         jLabel7.setText("CIF NO");
 
-        accountTypeCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SA", "CA" }));
+        accountNOTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                accountNOTxtFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -243,7 +255,7 @@ public class AddNewContact extends javax.swing.JDialog {
                     .addComponent(cifTxt)
                     .addComponent(branchTxt)
                     .addComponent(accountNOTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                    .addComponent(accountTypeCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(txtAcType)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,7 +270,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(accountTypeCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAcType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cifTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,6 +286,12 @@ public class AddNewContact extends javax.swing.JDialog {
         jLabel10.setText("Age");
 
         jLabel11.setText("DOB");
+
+        txtNic.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNicFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -291,8 +309,8 @@ public class AddNewContact extends javax.swing.JDialog {
                                 .addComponent(jLabel9)
                                 .addGap(39, 39, 39)))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(sexTxt)
-                            .addComponent(nicTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtSex)
+                            .addComponent(txtNic, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
@@ -308,11 +326,11 @@ public class AddNewContact extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(nicTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(sexTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -371,7 +389,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -399,11 +417,9 @@ public class AddNewContact extends javax.swing.JDialog {
                     .addComponent(jLabel14))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(homeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(mobile1Txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(mobile2Txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(homeTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                    .addComponent(mobile1Txt)
+                    .addComponent(mobile2Txt)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,7 +473,7 @@ public class AddNewContact extends javax.swing.JDialog {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jLabel17)
                 .addGap(50, 50, 50)
-                .addComponent(emailPersonalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailPersonalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -485,7 +501,7 @@ public class AddNewContact extends javax.swing.JDialog {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 84, Short.MAX_VALUE)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
@@ -520,12 +536,13 @@ public class AddNewContact extends javax.swing.JDialog {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addGap(38, 38, 38)
-                        .addComponent(phoneOfficeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(phoneOfficeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(50, 50, 50)
-                        .addComponent(FaxTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(FaxTxt)))
+                .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -776,6 +793,25 @@ public class AddNewContact extends javax.swing.JDialog {
             cmbGroup.addItem(groupList1.getGroupName());
         }
     }
+    public void populateTagCmbBox(){
+         // populate Tag combo box
+        // get tags to a list from the db
+        List<Tag> tagList = null;
+        try {
+            tagList = tagDAC.getAllTags();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(AddNewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
+        }
+        
+        
+        // load the combo box
+        for (Tag tagList1 : tagList) {
+            cmbTags.addItem(tagList1.getTagName());
+        }
+    }
+    public javax.swing.JComboBox getCmbTag(){
+        return cmbTags;
+    }
     public javax.swing.JComboBox getCmbGroup(){
         return cmbGroup;
     }
@@ -788,6 +824,19 @@ public class AddNewContact extends javax.swing.JDialog {
        addNewGroup.setVisible(true);
         
     }//GEN-LAST:event_btnAddGroupActionPerformed
+
+    private void btnAddTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTagsActionPerformed
+        NewTag newTag = new NewTag(this, updateMode,tagDAC); // this or AddNewContact.this
+        newTag.setVisible(true);
+    }//GEN-LAST:event_btnAddTagsActionPerformed
+
+    private void txtNicFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNicFocusLost
+        // calculate male or female and setText at txtSex
+    }//GEN-LAST:event_txtNicFocusLost
+
+    private void accountNOTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_accountNOTxtFocusLost
+        // get the account type from account no and set text at txt box
+    }//GEN-LAST:event_accountNOTxtFocusLost
     
     public void savePerson(){
         
@@ -795,9 +844,9 @@ public class AddNewContact extends javax.swing.JDialog {
         String firstName = firstNameTxt.getText();
         String lastName = lastNameTxt.getText();
         String group = cmbGroup.getSelectedItem().toString();
-        String tags = tagsCmb.getSelectedItem().toString();
-        String nic = nicTxt.getText();
-        String sex = sexTxt.getText();
+        String tags = cmbTags.getSelectedItem().toString();
+        String nic = txtNic.getText();
+        String sex = txtSex.getText();
         String mobileOne = mobile1Txt.getText();
         String mobileTwo = mobile2Txt.getText();
         String home = homeTxt.getText();
@@ -813,7 +862,7 @@ public class AddNewContact extends javax.swing.JDialog {
         String nickName = nickNameTxt.getText();
         String branch = branchTxt.getText();
         String cifNo = cifTxt.getText();
-        String acType = accountTypeCmb.getSelectedItem().toString();
+        String acType = txtAcType.getText();
         String emailPersonal = emailPersonalTxt.getText();
         String emailBusiness = emailBusinessTxt.getText();
         String webPagePersonal = webPagePersonalTxt.getText();
@@ -886,9 +935,9 @@ public class AddNewContact extends javax.swing.JDialog {
         firstNameTxt.setText(person.getFirstName());
         lastNameTxt.setText(person.getLastName());
         cmbGroup.setSelectedItem(person.getGroup());
-        tagsCmb.setSelectedItem(person.getTags());
-        nicTxt.setText(person.getNic());
-        sexTxt.setText(person.getSex());
+        cmbTags.setSelectedItem(person.getTags());
+        txtNic.setText(person.getNic());
+        txtSex.setText(person.getSex());
         mobile1Txt.setText(person.getMobileOne());
         mobile2Txt.setText(person.getMobileTwo());
         homeTxt.setText(person.getHome());
@@ -904,7 +953,7 @@ public class AddNewContact extends javax.swing.JDialog {
         nickNameTxt.setText(person.getNickName());
         branchTxt.setText(person.getBranch());
         cifTxt.setText(person.getCifNo());
-        accountTypeCmb.setSelectedItem(person.getAcType());
+        txtAcType.setText(person.getAcType());
         emailPersonalTxt.setText(person.getEmailPersonal());
         emailBusinessTxt.setText(person.getEmailBusiness());
         webPagePersonalTxt.setText(person.getWebPagePersonal());
@@ -966,7 +1015,6 @@ public class AddNewContact extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField FaxTxt;
     private javax.swing.JTextField accountNOTxt;
-    private javax.swing.JComboBox accountTypeCmb;
     private javax.swing.JTextArea addressBusinessTxt;
     private javax.swing.JTextArea addressPersonalTxt;
     private javax.swing.JTextField ageTxt;
@@ -978,6 +1026,7 @@ public class AddNewContact extends javax.swing.JDialog {
     private javax.swing.JButton cancelBtn;
     private javax.swing.JTextField cifTxt;
     private javax.swing.JComboBox cmbGroup;
+    private javax.swing.JComboBox cmbTags;
     private javax.swing.JTextField dobTxt;
     private javax.swing.JTextField emailBusinessTxt;
     private javax.swing.JTextField emailPersonalTxt;
@@ -1030,13 +1079,13 @@ public class AddNewContact extends javax.swing.JDialog {
     private javax.swing.JTextField lastNameTxt;
     private javax.swing.JTextField mobile1Txt;
     private javax.swing.JTextField mobile2Txt;
-    private javax.swing.JTextField nicTxt;
     private javax.swing.JTextField nickNameTxt;
     private javax.swing.JTextArea notesTxt;
     private javax.swing.JTextField path;
     private javax.swing.JTextField phoneOfficeTxt;
-    private javax.swing.JTextField sexTxt;
-    private javax.swing.JComboBox tagsCmb;
+    private javax.swing.JTextField txtAcType;
+    private javax.swing.JTextField txtNic;
+    private javax.swing.JTextField txtSex;
     private javax.swing.JTextField webPageBusinessTxt;
     private javax.swing.JTextField webPagePersonalTxt;
     // End of variables declaration//GEN-END:variables
