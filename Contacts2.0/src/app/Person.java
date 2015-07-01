@@ -273,8 +273,30 @@ public class Person {
     
     public String getSummary(){
         String temp="";
-        if(!"".equals(group)){temp+="Group "+group+"\n";}
-        if(!"".equals(nic)){temp+="\nNIC "+nic+"\n";}
+        
+        if(!"".equals(nickName)){temp+="Nick Name                              "+nickName+"\n";}
+        
+        temp+= "Group                                       "+group+"\nNIC                                           "+nic+"\n";
+        
+        if(mobileOne != null & !"".equals(mobileOne)){temp+=        "Mobile 1                                   "+mobileOne+"\n";}
+        if(mobileOne != null & !"".equals(mobileTwo)){temp+=        "Mobile 2                                   "+mobileTwo+"\n";}
+        if(mobileOne != null & !"".equals(home)){temp+=             "Home                                       "+home+"\n";}
+        if(mobileOne != null & !"".equals(office)){temp+=           "Office                                        "+office+"\n";}
+        if(mobileOne != null & !"".equals(fax)){temp+=              "Fax                                            "+fax+"\n";}
+        
+        if(mobileOne != null & !"".equals(personalAddress)){temp+=  "\nPersonal Address \n\n"+personalAddress+"\n";}
+        if(mobileOne != null & !"".equals(officeAddress)){temp+=    "\nOffice Address    \n\n"+officeAddress+"\n\n";}
+        
+        if(mobileOne != null & !"".equals(business)){temp+=         "Business                                   "+business+"\n";}
+        
+        if(mobileOne != null & !"".equals(emailPersonal)){temp+=    "Personal email                         "+emailPersonal+"\n";}
+        if(mobileOne != null & !"".equals(emailBusiness)){temp+=    "Business email                        "+emailBusiness+"\n";}
+        if(mobileOne != null & !"".equals(webPagePersonal)){temp+=  "Personal web page                 "+webPagePersonal+"\n";}
+        if(mobileOne != null & !"".equals(webPageBusiness)){temp+=  "Business web page                "+webPageBusiness+"\n";}
+        
+        if(mobileOne != null & !"".equals(acNumber)){temp+=         "Account No                                "+acNumber+"\n";}
+        if(mobileOne != null & !"".equals(cifNo)){temp+=            "CIF No                                        "+cifNo+"\n";}
+        if(mobileOne != null & !"".equals(branch)){temp+=           "Branch                                        "+branch+"\n";}
         
         return temp;
     }

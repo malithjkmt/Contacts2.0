@@ -72,7 +72,7 @@ public class ContactsBook extends javax.swing.JFrame {
         comboPara = new javax.swing.JComboBox();
         txtName = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtQuickPane = new javax.swing.JTextField();
+        txtQuickPane = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -174,6 +174,8 @@ public class ContactsBook extends javax.swing.JFrame {
         txtName.setForeground(new java.awt.Color(0, 0, 102));
         txtName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtQuickPane.setColumns(20);
+        txtQuickPane.setRows(5);
         jScrollPane2.setViewportView(txtQuickPane);
 
         jButton1.setText("NIC reader");
@@ -351,37 +353,7 @@ public class ContactsBook extends javax.swing.JFrame {
         tempPerson = (Person)table.getValueAt(row, PersonTableModel.OBJECT_COL);
         // get values
         txtQuickPane.setText(tempPerson.getSummary());
-        /*if(tempPerson!=null){
-            String firstName = tempPerson.getFirstName();
-            String lastName = tempPerson.getLastName();
-            String group = tempPerson.getGroup();
-            String tags = tempPerson.getTags();
-            String nic = tempPerson.getNic();
-            String sex = tempPerson.getSex();
-            String mobileOne = tempPerson.getMobileOne();
-            String mobileTwo = tempPerson.getMobileTwo();
-            String home = tempPerson.getHome();
-            String office = tempPerson.getOffice();
-            String fax = tempPerson.getFax();
-            String personalAddress = tempPerson.getPersonalAddress();
-            String officeAddress = tempPerson.getOfficeAddress();
-            String business = tempPerson.getBusiness();
-            String notes = tempPerson.getNotes();
-            String birthday = tempPerson.getBirthday();
-            //person_image // later
-            String acNumber = tempPerson.getAcNumber();
-            String nickName = tempPerson.getNickName();
-            String branch = tempPerson.getBranch();
-            String cifNo = tempPerson.getCifNo();
-            String acType = tempPerson.getAcType();
-            String emailPersonal = tempPerson.getEmailPersonal();
-            String emailBusiness = tempPerson.getEmailBusiness();
-            String webPagePersonal = tempPerson.getWebPagePersonal();
-            String webPageBusiness = tempPerson.getWebPageBusiness();
-            //set values
-         
-            
-        }*/
+        txtName.setText(" "+tempPerson.getFirstName() +" "+ tempPerson.getLastName());
     }//GEN-LAST:event_tableMousePressed
 
     /**
@@ -450,7 +422,7 @@ public class ContactsBook extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtQuickPane;
+    private javax.swing.JTextArea txtQuickPane;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
