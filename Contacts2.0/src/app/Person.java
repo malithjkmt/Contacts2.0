@@ -272,32 +272,56 @@ public class Person {
     }
     
     public String getSummary(){
-        String temp="";
+        String temp="<html><head>\n" +
+"<style>\n" +
+"table {\n" +
+"    width:150%;\n" +
+"}\n" +
+"table, th, td {\n" +
+"    border: 1px solid black;\n" +
+"    border-collapse: collapse;\n" +
+"}\n" +
+"th, td {\n" +
+"    padding: 2px;\n" +
+"    text-align: left;\n" +
+"}\n" +
+"table#t01 tr:nth-child(even) {\n" +
+"    background-color: #eee;\n" +
+"}\n" +
+"table#t01 tr:nth-child(odd) {\n" +
+"   background-color:#fff;\n" +
+"}\n" +
+"table#t01 th	{\n" +
+"    background-color: black;\n" +
+"    color: white;\n" +
+"}\n" +
+"</style>\n" +
+"</head><body><table id=\"t01\">";
         
-        if(!"".equals(nickName)){temp+="Nick Name                              "+nickName+"\n";}
+        if(!"".equals(nickName)){temp+="<tr><td>Nick Name</td><td>"+nickName+"</td></tr>";}
         
-        temp+= "Group                                       "+group+"\nNIC                                           "+nic+"\n";
+        temp+= "<tr><td>Group</td><td>"+group+"</td></tr><tr><td>NIC</td><td>"+nic+"</td></tr>";
         
-        if(mobileOne != null & !"".equals(mobileOne)){temp+=        "Mobile 1                                   "+mobileOne+"\n";}
-        if(mobileOne != null & !"".equals(mobileTwo)){temp+=        "Mobile 2                                   "+mobileTwo+"\n";}
-        if(mobileOne != null & !"".equals(home)){temp+=             "Home                                       "+home+"\n";}
-        if(mobileOne != null & !"".equals(office)){temp+=           "Office                                        "+office+"\n";}
-        if(mobileOne != null & !"".equals(fax)){temp+=              "Fax                                            "+fax+"\n";}
+        if(mobileOne != null & !"".equals(mobileOne)){temp+=        "<tr><td><b>Mobile 1</b></td><td>"+mobileOne+"</td></tr>";}
+        if(mobileOne != null & !"".equals(mobileTwo)){temp+=        "<tr><td>Mobile 2</td><td>"+mobileTwo+"</td></tr>";}
+        if(mobileOne != null & !"".equals(home)){temp+=             "<tr><td>Home</td><td>"+home+"</td></tr>";}
+        if(mobileOne != null & !"".equals(office)){temp+=           "<tr><td>Office</td><td>"+office+"</td></tr>";}
+        if(mobileOne != null & !"".equals(fax)){temp+=              "<tr><td>Fax</td><td>"+fax+"</td></tr>";}
         
-        if(mobileOne != null & !"".equals(personalAddress)){temp+=  "\nPersonal Address \n\n"+personalAddress+"\n";}
-        if(mobileOne != null & !"".equals(officeAddress)){temp+=    "\nOffice Address    \n\n"+officeAddress+"\n\n";}
+        if(mobileOne != null & !"".equals(personalAddress)){temp+=  "</td></tr>Personal Address</td><td>"+personalAddress+"</td></tr>";}
+        if(mobileOne != null & !"".equals(officeAddress)){temp+=    "</td></tr>Office Address</td><td>"+officeAddress+"</td></tr></td></tr>";}
         
-        if(mobileOne != null & !"".equals(business)){temp+=         "Business                                   "+business+"\n";}
+        if(mobileOne != null & !"".equals(business)){temp+=         "<tr><td>Business</td><td>"+business+"</td></tr>";}
         
-        if(mobileOne != null & !"".equals(emailPersonal)){temp+=    "Personal email                         "+emailPersonal+"\n";}
-        if(mobileOne != null & !"".equals(emailBusiness)){temp+=    "Business email                        "+emailBusiness+"\n";}
-        if(mobileOne != null & !"".equals(webPagePersonal)){temp+=  "Personal web page                 "+webPagePersonal+"\n";}
-        if(mobileOne != null & !"".equals(webPageBusiness)){temp+=  "Business web page                "+webPageBusiness+"\n";}
+        if(mobileOne != null & !"".equals(emailPersonal)){temp+=    "<tr><td>Personal email</td><td>"+emailPersonal+"</td></tr>";}
+        if(mobileOne != null & !"".equals(emailBusiness)){temp+=    "<tr><td>Business email</td><td>"+emailBusiness+"</td></tr>";}
+        if(mobileOne != null & !"".equals(webPagePersonal)){temp+=  "<tr><td>Personal web page</td><td>"+webPagePersonal+"</td></tr>";}
+        if(mobileOne != null & !"".equals(webPageBusiness)){temp+=  "<tr><td>Business web page</td><td>"+webPageBusiness+"</td></tr>";}
         
-        if(mobileOne != null & !"".equals(acNumber)){temp+=         "Account No                                "+acNumber+"\n";}
-        if(mobileOne != null & !"".equals(cifNo)){temp+=            "CIF No                                        "+cifNo+"\n";}
-        if(mobileOne != null & !"".equals(branch)){temp+=           "Branch                                        "+branch+"\n";}
-        
+        if(mobileOne != null & !"".equals(acNumber)){temp+=         "<tr><td>Account No</td><td>"+acNumber+"</td></tr>";}
+        if(mobileOne != null & !"".equals(cifNo)){temp+=            "<tr><td>CIF No</td><td>"+cifNo+"</td></tr>";}
+        if(mobileOne != null & !"".equals(branch)){temp+=           "<tr><td>Branch</td><td>"+branch+"</td></tr>";}
+        temp+= "</table></body></html>";
         return temp;
     }
     
