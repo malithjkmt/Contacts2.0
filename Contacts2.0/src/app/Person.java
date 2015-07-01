@@ -29,7 +29,7 @@ public class Person {
     private String nickName;
     private String branch;
     private String cifNo;
-    private String acType;
+   // private String acType;
     private String emailPersonal;
     private String emailBusiness;
     private String webPagePersonal;
@@ -39,7 +39,7 @@ public class Person {
         
     }
     //constructure (without pic)
-    public Person(String firstName, String lastName, String group, String tags, String nic, String sex, String mobileOne, String mobileTwo, String home, String office, String fax, String personalAddress, String officeAddress, String business, String notes, String birthday, String acNumber, String nickName, String branch, String cifNo, String acType, String emailPersonal, String emailBusiness, String webPagePersonal, String webPageBusiness) {
+    public Person(String firstName, String lastName, String group, String tags, String nic, String sex, String mobileOne, String mobileTwo, String home, String office, String fax, String personalAddress, String officeAddress, String business, String notes, String birthday, String acNumber, String nickName, String branch, String cifNo, String emailPersonal, String emailBusiness, String webPagePersonal, String webPageBusiness) {
         //super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,7 +61,7 @@ public class Person {
         this.nickName = nickName;
         this.branch = branch;
         this.cifNo = cifNo;
-        this.acType = acType;
+      //  this.acType = acType;
         this.emailPersonal = emailPersonal;
         this.emailBusiness = emailBusiness;
         this.webPagePersonal = webPagePersonal;
@@ -150,9 +150,9 @@ public class Person {
         this.cifNo = cifNo;
     }
 
-    public void setAcType(String acType) {
+   /* public void setAcType(String acType) {
         this.acType = acType;
-    }
+    }*/
 
     public void setEmailPersonal(String emailPersonal) {
         this.emailPersonal = emailPersonal;
@@ -251,9 +251,9 @@ public class Person {
         return cifNo;
     }
 
-    public String getAcType() {
+  /*  public String getAcType() {
         return acType;
-    }
+    }*/
 
     public String getEmailPersonal() {
         return emailPersonal;
@@ -271,6 +271,12 @@ public class Person {
         return webPageBusiness;
     }
     
-    
+    public String getSummary(){
+        String temp="";
+        if(!"".equals(group)){temp+="Group "+group+"\n";}
+        if(!"".equals(nic)){temp+="\nNIC "+nic+"\n";}
+        
+        return temp;
+    }
     
 }

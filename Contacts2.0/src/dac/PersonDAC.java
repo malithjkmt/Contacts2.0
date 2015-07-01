@@ -84,10 +84,10 @@ public class PersonDAC {
                     break;
                 //if "keyWord" in any field in the record, return them
                 case "All":
-                    query = "select * from person where FirstName like ? or LastName like ? or `Group` like ? or Tags like ? or NIC like ? or Sex like ? or MobileOne like ? or MobileTwo like ? or Home like ? or Office like ? or Fax like ? or PersonalAddress like ? or OfficeAddress like ? or Business like ? or Notes like ? or BirthDay like ? or AccountNumber like ? or NickName like ? or Branch like ? or CIFno like ? or AccountType like ? or EmailPersonal like ? or EmailBusiness like ? or WebPagePersonal like ? or WebPageBusiness like ?";
+                    query = "select * from person where FirstName like ? or LastName like ? or `Group` like ? or Tags like ? or NIC like ? or Sex like ? or MobileOne like ? or MobileTwo like ? or Home like ? or Office like ? or Fax like ? or PersonalAddress like ? or OfficeAddress like ? or Business like ? or Notes like ? or BirthDay like ? or AccountNumber like ? or NickName like ? or Branch like ? or CIFno like ?  or EmailPersonal like ? or EmailBusiness like ? or WebPagePersonal like ? or WebPageBusiness like ?";
                     myStmt = myConn.prepareStatement(query);
                     //set parameters
-                    for(int i=1;i<26;i++){
+                    for(int i=1;i<25;i++){
                         myStmt.setString(i, keyWord);
                     }
                     break;
@@ -120,7 +120,7 @@ public class PersonDAC {
         PreparedStatement myStmt = null;
         try{
             //prepare statement
-            myStmt = myConn.prepareStatement("INSERT INTO person (FirstName, LastName, `Group`, Tags, NIC, Sex, MobileOne,MobileTwo,Home, Office, Fax,PersonalAddress, OfficeAddress, Business, Notes, BirthDay, AccountNumber,NickName, Branch, CIFno, AccountType, EmailPersonal, EmailBusiness,WebPagePersonal,WebPageBusiness)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            myStmt = myConn.prepareStatement("INSERT INTO person (FirstName, LastName, `Group`, Tags, NIC, Sex, MobileOne,MobileTwo,Home, Office, Fax,PersonalAddress, OfficeAddress, Business, Notes, BirthDay, AccountNumber,NickName, Branch, CIFno, EmailPersonal, EmailBusiness,WebPagePersonal,WebPageBusiness)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             
             //set params
             myStmt.setString(1,person.getFirstName() );
@@ -144,11 +144,11 @@ public class PersonDAC {
             myStmt.setString(18, person.getNickName());
             myStmt.setString(19, person.getBranch());
             myStmt.setString(20, person.getCifNo());
-            myStmt.setString(21, person.getAcType());
-            myStmt.setString(22, person.getEmailPersonal());
-            myStmt.setString(23, person.getEmailBusiness());
-            myStmt.setString(24, person.getWebPagePersonal());
-            myStmt.setString(25, person.getWebPageBusiness());
+           // myStmt.setString(21, person.getAcType());
+            myStmt.setString(21, person.getEmailPersonal());
+            myStmt.setString(22, person.getEmailBusiness());
+            myStmt.setString(23, person.getWebPagePersonal());
+            myStmt.setString(24, person.getWebPageBusiness());
            /*  myStmt.setString(18, person.getAcNumber());
             myStmt.setString(19, person.getNickName());
             myStmt.setString(20, person.getBranch());
@@ -174,7 +174,7 @@ public class PersonDAC {
         PreparedStatement myStmt = null; 
         try{
             //prepare the statement
-            myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, NIC=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, AccountType=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=? where NIC=?");// Why this Group has to be `Group` ?????
+            myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, NIC=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=? where NIC=?");// Why this Group has to be `Group` ?????
             
             // set params
             myStmt.setString(1,person.getFirstName() );
@@ -198,12 +198,12 @@ public class PersonDAC {
             myStmt.setString(18, person.getNickName());
             myStmt.setString(19, person.getBranch());
             myStmt.setString(20, person.getCifNo());
-            myStmt.setString(21, person.getAcType());
-            myStmt.setString(22, person.getEmailPersonal());
-            myStmt.setString(23, person.getEmailBusiness());
-            myStmt.setString(24, person.getWebPagePersonal());
-            myStmt.setString(25, person.getWebPageBusiness());
-            myStmt.setString(26, previousNIC);
+           // myStmt.setString(21, person.getAcType());
+            myStmt.setString(21, person.getEmailPersonal());
+            myStmt.setString(22, person.getEmailBusiness());
+            myStmt.setString(23, person.getWebPagePersonal());
+            myStmt.setString(24, person.getWebPageBusiness());
+            myStmt.setString(25, previousNIC);
             
             //execute statement
             myStmt.executeUpdate();
@@ -291,13 +291,13 @@ public class PersonDAC {
         String nickName = myRs.getString(18);
         String branch = myRs.getString(19);
         String cifNo = myRs.getString(20);
-        String acType = myRs.getString(21);
-        String emailPersonal = myRs.getString(22);
-        String emailBusiness = myRs.getString(23);
-        String webPagePersonal = myRs.getString(24);
-        String webPageBusiness = myRs.getString(25);
+        //String acType = myRs.getString(21);
+        String emailPersonal = myRs.getString(21);
+        String emailBusiness = myRs.getString(22);
+        String webPagePersonal = myRs.getString(23);
+        String webPageBusiness = myRs.getString(24);
 		
-	Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, acType, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+	Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
 	return tempPerson;
     }
     

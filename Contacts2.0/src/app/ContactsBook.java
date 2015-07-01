@@ -33,16 +33,10 @@ public class ContactsBook extends javax.swing.JFrame {
             Logger.getLogger(ContactsBook.class.getName()).log(Level.SEVERE, null, ex);
         }*/
         initComponents();
-        //quick view pane
-    /*table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-    public void valueChanged(ListSelectionEvent event) {
-        // do some actions here, for example
-        // print first column value from selected row
-        System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
-    }
+        
 
             
-    });*/
+   
          
         try {
             // create the central DAO
@@ -74,9 +68,10 @@ public class ContactsBook extends javax.swing.JFrame {
         btnNewContact = new javax.swing.JButton();
         btnUpdateContact = new javax.swing.JButton();
         btnDeleteContact = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        quickViewPanel = new app.QuickViewPanel();
         comboPara = new javax.swing.JComboBox();
+        txtName = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtQuickPane = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,7 +149,7 @@ public class ContactsBook extends javax.swing.JFrame {
                 .addComponent(btnUpdateContact, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDeleteContact)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,9 +162,14 @@ public class ContactsBook extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jScrollPane3.setViewportView(quickViewPanel);
-
         comboPara.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "NIC", "AccountNumber", "Phone", "All" }));
+
+        txtName.setEditable(false);
+        txtName.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        txtName.setForeground(new java.awt.Color(0, 0, 102));
+        txtName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jScrollPane2.setViewportView(txtQuickPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,28 +178,35 @@ public class ContactsBook extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnSearch))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
@@ -208,9 +215,8 @@ public class ContactsBook extends javax.swing.JFrame {
                                 .addComponent(btnSearch)
                                 .addComponent(jLabel1)
                                 .addComponent(comboPara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -313,15 +319,44 @@ public class ContactsBook extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteContactActionPerformed
 
     private void tableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMousePressed
-       /* // TODO add your handling code here:
+        // get the selected row
         int row = table.getSelectedRow();
         // get the current Person
-        Person tempPerson = (Person)table.getValueAt(row, PersonTableModel.OBJECT_COL);
-        quickViewPanel.show(tempPerson);
-        txtSearch.requestFocus();
-        btnSearch.doClick();
-        table.requestFocus();*/
-        
+        Person tempPerson = null;
+        tempPerson = (Person)table.getValueAt(row, PersonTableModel.OBJECT_COL);
+        // get values
+        txtQuickPane.setText(tempPerson.getSummary());
+        /*if(tempPerson!=null){
+            String firstName = tempPerson.getFirstName();
+            String lastName = tempPerson.getLastName();
+            String group = tempPerson.getGroup();
+            String tags = tempPerson.getTags();
+            String nic = tempPerson.getNic();
+            String sex = tempPerson.getSex();
+            String mobileOne = tempPerson.getMobileOne();
+            String mobileTwo = tempPerson.getMobileTwo();
+            String home = tempPerson.getHome();
+            String office = tempPerson.getOffice();
+            String fax = tempPerson.getFax();
+            String personalAddress = tempPerson.getPersonalAddress();
+            String officeAddress = tempPerson.getOfficeAddress();
+            String business = tempPerson.getBusiness();
+            String notes = tempPerson.getNotes();
+            String birthday = tempPerson.getBirthday();
+            //person_image // later
+            String acNumber = tempPerson.getAcNumber();
+            String nickName = tempPerson.getNickName();
+            String branch = tempPerson.getBranch();
+            String cifNo = tempPerson.getCifNo();
+            String acType = tempPerson.getAcType();
+            String emailPersonal = tempPerson.getEmailPersonal();
+            String emailBusiness = tempPerson.getEmailBusiness();
+            String webPagePersonal = tempPerson.getWebPagePersonal();
+            String webPageBusiness = tempPerson.getWebPageBusiness();
+            //set values
+         
+            
+        }*/
     }//GEN-LAST:event_tableMousePressed
 
     /**
@@ -384,9 +419,10 @@ public class ContactsBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private app.QuickViewPanel quickViewPanel;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtQuickPane;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
