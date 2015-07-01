@@ -1,6 +1,7 @@
 package app;
 
 
+import dialog.NewContact;
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import dac.DbConnector;
@@ -72,8 +73,12 @@ public class ContactsBook extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuickPane = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("People's Contact Book beta");
 
         table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -171,6 +176,12 @@ public class ContactsBook extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(txtQuickPane);
 
+        jButton1.setText("NIC reader");
+
+        jButton2.setText("AC No reader");
+
+        jButton3.setText("Branch Finder");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,13 +203,27 @@ public class ContactsBook extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
@@ -253,7 +278,7 @@ public class ContactsBook extends javax.swing.JFrame {
     private void btnNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewContactActionPerformed
         try {
             //create dialog
-            AddNewContact newContactDialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,null, false, ContactsBook.this);
+            NewContact newContactDialog = new NewContact(this, rootPaneCheckingEnabled, personDAC,null, false, ContactsBook.this);
             //show dialog
             newContactDialog.setVisible(true);
         } catch (IOException | SQLException ex) {
@@ -277,7 +302,7 @@ public class ContactsBook extends javax.swing.JFrame {
         // open the update dialog box (same as add new contact)
         try {
             //create dialog
-            AddNewContact dialog = new AddNewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true, ContactsBook.this);
+            NewContact dialog = new NewContact(this, rootPaneCheckingEnabled, personDAC,tempPerson, true, ContactsBook.this);
             // show dialog
             dialog.setVisible(true);
         } catch (IOException | SQLException ex) {
@@ -416,6 +441,9 @@ public class ContactsBook extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateContact;
     private javax.swing.JComboBox comboPara;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

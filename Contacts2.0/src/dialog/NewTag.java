@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app;
+package dialog;
 
+import app.Tag;
+import dialog.NewContact;
 import dac.TagDAC;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -14,12 +16,12 @@ import javax.swing.JOptionPane;
  * @author Malith
  */
 public class NewTag extends javax.swing.JDialog {
-    AddNewContact addNewContact;
+    NewContact addNewContact;
     TagDAC tagDAC;
     /**
      * Creates new form NewTag
      */
-    public NewTag(AddNewContact parent, boolean modal, TagDAC tagDAC) {
+    public NewTag(NewContact parent, boolean modal, TagDAC tagDAC) {
         super(parent, modal);
         initComponents();
         this.tagDAC = tagDAC;

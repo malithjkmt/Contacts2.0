@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app;
+package dialog;
 
+import app.Group;
+import dialog.NewContact;
 import dac.GroupDAC;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -15,15 +17,15 @@ import javax.swing.JOptionPane;
  *
  * @author Malith
  */
-public class AddNewGroup extends javax.swing.JDialog {
-    AddNewContact addNewContact;
+public class NewGroup extends javax.swing.JDialog {
+    NewContact addNewContact;
     GroupDAC groupDAC;
     
 
     /**
      * Creates new form AddNewGroup
      */
-    public AddNewGroup(AddNewContact parent, boolean modal, GroupDAC groupDAC) {
+    public NewGroup(NewContact parent, boolean modal, GroupDAC groupDAC) {
         super(parent, modal);
         initComponents();
         addNewContact = parent;

@@ -1,6 +1,10 @@
 
-package app;
+package dialog;
 
+import app.ContactsBook;
+import app.Group;
+import app.Person;
+import app.Tag;
 import dac.GroupDAC;
 import dac.PersonDAC;
 import dac.TagDAC;
@@ -10,12 +14,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utility.NicReader;
 
 /**
  *
  * @author Malith - malith.13@cse.mrt.ac.lk
  */
-public class AddNewContact extends javax.swing.JDialog {
+public class NewContact extends javax.swing.JDialog {
     // make instances to be initialized in the constructer
     private PersonDAC personDAC; 
     private GroupDAC groupDAC;
@@ -27,15 +32,16 @@ public class AddNewContact extends javax.swing.JDialog {
     private Person selectedPerson = null;
     private boolean updateMode = false;
   
+    NicReader nicReader;
     /**
      * Creates new form AddNewContact
      */
-    public AddNewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException { // do I need this???
+    public NewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException { // do I need this???
         super(parent, modal);         
         initComponents();
     }
     
-    public AddNewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
+    public NewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
         super(parent, modal);
         
         this.personDAC = personDAC;
@@ -47,6 +53,7 @@ public class AddNewContact extends javax.swing.JDialog {
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
         
+        nicReader = new NicReader();     
     
         
         initComponents();
@@ -764,7 +771,7 @@ public class AddNewContact extends javax.swing.JDialog {
         try {
             groupList = groupDAC.getAllGroups();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(AddNewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(NewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
         }
         
         
@@ -780,7 +787,7 @@ public class AddNewContact extends javax.swing.JDialog {
         try {
             tagList = tagDAC.getAllTags();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(AddNewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(NewContact.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE); 
         }
         
         
@@ -800,43 +807,18 @@ public class AddNewContact extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
     
     private void btnAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroupActionPerformed
-       AddNewGroup addNewGroup = new AddNewGroup(this, updateMode,groupDAC); // this or AddNewContact.this
+       NewGroup addNewGroup = new NewGroup(this, updateMode,groupDAC); // this or NewContact.this
        addNewGroup.setVisible(true);
         
     }//GEN-LAST:event_btnAddGroupActionPerformed
 
     private void btnAddTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTagsActionPerformed
-        NewTag newTag = new NewTag(this, updateMode,tagDAC); // this or AddNewContact.this
+        NewTag newTag = new NewTag(this, updateMode,tagDAC); // this or NewContact.this
         newTag.setVisible(true);
     }//GEN-LAST:event_btnAddTagsActionPerformed
 
     private void txtNicFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNicFocusLost
-        // calculate male or female and setText at txtSex
-        int day = 0;
-        String id = txtNic.getText();
-        if(id.length() == 0){return;}
-        if(id.length()<9 || id.length() >10){
-            JOptionPane.showMessageDialog(rootPane, "please enter a valid NIC number");
-            txtNic.setText("");
-            txtNic.requestFocus();
-            return;
-        }
-        try{
-            day = Integer.parseInt(id.substring(2,5));
-            if(day <366){txtSex.setText("Male");}
-            else{txtSex.setText("Female");}
-            
-            Integer.parseInt(id.substring(0,9)); // to check the first 9 digits are only numeric
-            
-            
-        }
-        catch (NumberFormatException | StringIndexOutOfBoundsException e){
-            JOptionPane.showMessageDialog(rootPane, "please enter a valid NIC number");
-            txtNic.setText("");
-            txtNic.requestFocus();
-        }  
-        // calculate DOB and set text at txtDOB
-        if(day == 0){return;}
+        nicReader.setSexnDOB(txtNic, txtSex, txtDOB);
         
         
     }//GEN-LAST:event_txtNicFocusLost
@@ -986,22 +968,22 @@ public class AddNewContact extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddNewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
       /*  java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddNewContact dialog;
+                NewContact dialog;
                 try {
-                    dialog = new AddNewContact(new javax.swing.JFrame(), true);
+                    dialog = new NewContact(new javax.swing.JFrame(), true);
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1010,9 +992,9 @@ public class AddNewContact extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(AddNewContact.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(AddNewContact.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
             }
