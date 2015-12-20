@@ -6,9 +6,9 @@
 package dialog;
 
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import dac.BranchDAC;
-import dac.DbConnector;
-import data.Branch;
+import dao.BranchDAO;
+import dao.DbConnector;
+import vo.Branch;
 import java.io.IOException;
 import static java.lang.System.exit;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ import javax.swing.UIManager;
  */
 public class BranchFinder extends javax.swing.JDialog {
 
-    BranchDAC branchDAC;
+    BranchDAO branchDAC;
 
     /**
      * Creates new form BranchFinderDialogBox
@@ -37,7 +37,7 @@ public class BranchFinder extends javax.swing.JDialog {
         jScrollPane1.getViewport().setOpaque(false);
        
         try {
-            branchDAC = new BranchDAC(DbConnector.getInstance().getMyConn());
+            branchDAC = new BranchDAO(DbConnector.getInstance().getMyConn());
         } catch (IOException | SQLException ex) {
             Logger.getLogger(BranchFinder.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,7 +1,7 @@
 
 package app;
 
-import data.Branch;
+import vo.Branch;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 

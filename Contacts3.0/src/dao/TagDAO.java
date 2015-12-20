@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dac;
+package dao;
 
-import data.Group;
-import data.Tag;
+import vo.Group;
+import vo.Tag;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +19,10 @@ import java.util.List;
  *
  * @author Malith
  */
-public class TagDACOld {
+public class TagDAO {
      private final Connection myConn;
 
-    public TagDACOld(Connection myConn) {
+    public TagDAO(Connection myConn) {
         this.myConn = myConn;
     }
     

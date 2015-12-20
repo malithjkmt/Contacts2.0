@@ -6,9 +6,9 @@
 package dialog;
 
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import dac.BranchDAC;
-import dac.DbConnector;
-import data.Branch;
+import dao.BranchDAO;
+import dao.DbConnector;
+import vo.Branch;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -22,14 +22,14 @@ import javax.swing.UIManager;
  */
 public class AddNewBranch extends javax.swing.JDialog {
 
-    BranchDAC branchDAC;
+    BranchDAO branchDAC;
     MyDocumentListener myDocumentListener;
     int currentBranchCode;
 
     /**
      * Creates new form AddNewBranch
      */
-    public AddNewBranch(java.awt.Frame parent, boolean modal, BranchDAC branchDAC) {
+    public AddNewBranch(java.awt.Frame parent, boolean modal, BranchDAO branchDAC) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -299,7 +299,7 @@ public class AddNewBranch extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    AddNewBranch dialog = new AddNewBranch(new javax.swing.JFrame(), true, new BranchDAC(DbConnector.getInstance().getMyConn()));
+                    AddNewBranch dialog = new AddNewBranch(new javax.swing.JFrame(), true, new BranchDAO(DbConnector.getInstance().getMyConn()));
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosing(java.awt.event.WindowEvent e) {

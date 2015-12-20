@@ -1,6 +1,6 @@
-package dac;
+package dao;
 
-import data.Person;
+import vo.Person;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,11 +17,11 @@ import java.util.logging.Logger;
  *
  * @author Malith - malith.13@cse.mrt.ac.lk
  */
-public class PersonDAC {
+public class PersonDAO {
 
     private final Connection myConn;
 
-    public PersonDAC(Connection myConn) throws IOException, SQLException {
+    public PersonDAO(Connection myConn) throws IOException, SQLException {
         this.myConn = myConn;
     }
 
@@ -50,7 +50,7 @@ public class PersonDAC {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(PersonDAC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersonDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close(myStmt, myRs);
         }
@@ -263,7 +263,7 @@ public class PersonDAC {
         try {
             close(null, myStmt, myRs);
         } catch (SQLException ex) {
-            Logger.getLogger(PersonDAC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersonDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

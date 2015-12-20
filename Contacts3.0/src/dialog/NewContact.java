@@ -1,12 +1,12 @@
 package dialog;
 
 import app.ContactsBook;
-import data.Group;
-import data.Person;
-import data.Tag;
-import dac.GroupDAC;
-import dac.PersonDAC;
-import dac.TagDACOld;
+import vo.Group;
+import vo.Person;
+import vo.Tag;
+import dao.GroupDAO;
+import dao.PersonDAO;
+import dao.TagDAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,9 +22,9 @@ public class NewContact extends javax.swing.JDialog {
 
     // make instances to be initialized in the constructer
 
-    private PersonDAC personDAC;
-    private GroupDAC groupDAC;
-    private TagDACOld tagDAC;
+    private PersonDAO personDAC;
+    private GroupDAO groupDAC;
+    private TagDAO tagDAC;
 
     private ContactsBook contactBook;
     private String previousNIC;
@@ -43,14 +43,14 @@ public class NewContact extends javax.swing.JDialog {
         initComponents();
     }
 
-    public NewContact(java.awt.Frame parent, boolean modal, PersonDAC personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook, Connection myConn) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
+    public NewContact(java.awt.Frame parent, boolean modal, PersonDAO personDAC, Person selectedPerson, boolean updateMode, ContactsBook contactBook, Connection myConn) throws IOException, SQLException {// try to remove unnecessary parameters!!!!!!
         super(parent, modal);
 
         this.personDAC = personDAC;
         this.contactBook = contactBook;
          this.myConn = myConn;
-        this.groupDAC = new GroupDAC(personDAC.getMyConn()); // is this ok?
-        this.tagDAC = new TagDACOld(personDAC.getMyConn());
+        this.groupDAC = new GroupDAO(personDAC.getMyConn()); // is this ok?
+        this.tagDAC = new TagDAO(personDAC.getMyConn());
 
         this.selectedPerson = selectedPerson;
         this.updateMode = updateMode;
@@ -863,7 +863,7 @@ public class NewContact extends javax.swing.JDialog {
         String webPagePersonal = webPagePersonalTxt.getText();
         String webPageBusiness = webPageBusinessTxt.getText();
 
-        Person tempPerson = null; // this will receive the updated contact or a brandnew contact to be sent to the PersonDAC
+        Person tempPerson = null; // this will receive the updated contact or a brandnew contact to be sent to the PersonDAO
         if (updateMode) {
             tempPerson = selectedPerson;
 

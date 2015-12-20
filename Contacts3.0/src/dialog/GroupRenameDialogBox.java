@@ -5,8 +5,8 @@
  */
 package dialog;
 
-import dac.DbConnector;
-import dac.GroupDAC;
+import dao.DbConnector;
+import dao.GroupDAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,11 +19,11 @@ import java.util.logging.Logger;
  */
 public class GroupRenameDialogBox extends javax.swing.JDialog {
     String currentGroupName;
-    GroupDAC groupDAC;
+    GroupDAO groupDAC;
     /**
      * Creates new form GroupRenameDialogBox
      */
-    public GroupRenameDialogBox(java.awt.Frame parent, boolean modal, String currentGroupName, GroupDAC groupDAC) {
+    public GroupRenameDialogBox(java.awt.Frame parent, boolean modal, String currentGroupName, GroupDAO groupDAC) {
         super(parent, modal);
         this.currentGroupName = currentGroupName;
         this.groupDAC = groupDAC;
@@ -179,7 +179,7 @@ public class GroupRenameDialogBox extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    GroupRenameDialogBox dialog = new GroupRenameDialogBox(new javax.swing.JFrame(), true,"old",new GroupDAC(DbConnector.getInstance().getMyConn()));
+                    GroupRenameDialogBox dialog = new GroupRenameDialogBox(new javax.swing.JFrame(), true,"old",new GroupDAO(DbConnector.getInstance().getMyConn()));
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosing(java.awt.event.WindowEvent e) {

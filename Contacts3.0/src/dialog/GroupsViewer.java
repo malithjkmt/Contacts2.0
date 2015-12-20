@@ -5,10 +5,10 @@
  */
 package dialog;
 
-import data.Group;
+import vo.Group;
 import app.GroupTableModel;
-import dac.DbConnector;
-import dac.GroupDAC;
+import dao.DbConnector;
+import dao.GroupDAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author Malith
  */
 public class GroupsViewer extends javax.swing.JDialog {
-    GroupDAC groupDAC;
+    GroupDAO groupDAC;
     Connection myConn;
     NewContact newContact;
     /**
@@ -32,7 +32,7 @@ public class GroupsViewer extends javax.swing.JDialog {
     public GroupsViewer(NewContact parent, boolean modal,Connection myConn) {
         super(parent, modal);
          this.myConn = myConn;
-        this.groupDAC = new GroupDAC(myConn);
+        this.groupDAC = new GroupDAO(myConn);
         this.newContact = parent;
         initComponents();
         
@@ -46,7 +46,7 @@ public class GroupsViewer extends javax.swing.JDialog {
      public GroupsViewer( java.awt.Frame parent, boolean modal,Connection myConn) {
         super(parent, modal);
          this.myConn = myConn;
-        this.groupDAC = new GroupDAC(myConn);
+        this.groupDAC = new GroupDAO(myConn);
         initComponents();
         
         

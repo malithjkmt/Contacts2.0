@@ -7,9 +7,9 @@ package dialog;
 
 import app.BranchTableModel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import dac.BranchDAC;
-import dac.DbConnector;
-import data.Branch;
+import dao.BranchDAO;
+import dao.DbConnector;
+import vo.Branch;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,13 +27,13 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class ManageBranches extends javax.swing.JDialog {
 
-    BranchDAC branchDAC;
+    BranchDAO branchDAC;
     Branch selectedBranch;
 
     /**
      * Creates new form ManageBranches
      */
-    public ManageBranches(java.awt.Frame parent, boolean modal, BranchDAC branchDAC) {
+    public ManageBranches(java.awt.Frame parent, boolean modal, BranchDAO branchDAC) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -450,7 +450,7 @@ public class ManageBranches extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ManageBranches dialog = new ManageBranches(new javax.swing.JFrame(), true, new BranchDAC(DbConnector.getInstance().getMyConn()));
+                    ManageBranches dialog = new ManageBranches(new javax.swing.JFrame(), true, new BranchDAO(DbConnector.getInstance().getMyConn()));
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosing(java.awt.event.WindowEvent e) {

@@ -5,9 +5,9 @@
  */
 package dialog;
 
-import data.Group;
+import vo.Group;
 import dialog.NewContact;
-import dac.GroupDAC;
+import dao.GroupDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,13 +20,13 @@ import javax.swing.JOptionPane;
  */
 public class NewGroup extends javax.swing.JDialog {
     NewContact addNewContact;
-    GroupDAC groupDAC;
+    GroupDAO groupDAC;
     Connection  myConn;
 
     /**
      * Creates new form AddNewGroup
      */
-    public NewGroup(NewContact parent, boolean modal, GroupDAC groupDAC, Connection myConn) {
+    public NewGroup(NewContact parent, boolean modal, GroupDAO groupDAC, Connection myConn) {
         super(parent, modal);
         initComponents();
          setLocationRelativeTo(null);

@@ -5,7 +5,7 @@
  */
 package app;
 
-import data.Person;
+import vo.Person;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

@@ -1,7 +1,7 @@
 
 package app;
 
-import data.Person;
+import vo.Person;
 import static com.sun.corba.se.impl.util.RepositoryId.cache;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;

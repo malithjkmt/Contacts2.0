@@ -1,7 +1,7 @@
 
 package app;
 
-import data.Group;
+import vo.Group;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 

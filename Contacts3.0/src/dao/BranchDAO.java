@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dac;
+package dao;
 
-import data.Branch;
+import vo.Branch;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,11 +18,11 @@ import java.util.List;
  *
  * @author Malith
  */
-public class BranchDAC {
+public class BranchDAO {
 
     Connection myConn;
 
-    public BranchDAC(Connection myConn) {
+    public BranchDAO(Connection myConn) {
         this.myConn = myConn;
     }
 

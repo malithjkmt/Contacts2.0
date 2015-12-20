@@ -5,8 +5,8 @@
  */
 package dialog;
 
-import data.Tag;
-import dac.TagDACOld;
+import vo.Tag;
+import dao.TagDAO;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -17,12 +17,12 @@ import javax.swing.JOptionPane;
 public class NewTag extends javax.swing.JDialog {
 
     NewContact addNewContact;
-    TagDACOld tagDAC;
+    TagDAO tagDAC;
 
     /**
      * Creates new form NewTag
      */
-    public NewTag(NewContact parent, boolean modal, TagDACOld tagDAC) {
+    public NewTag(NewContact parent, boolean modal, TagDAO tagDAC) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);

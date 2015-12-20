@@ -1,11 +1,11 @@
 package app;
 
-import data.Person;
+import vo.Person;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import dialog.GroupsViewer;
 import dialog.NewContact;
-import dac.DbConnector;
-import dac.PersonDAC;
+import dao.DbConnector;
+import dao.PersonDAO;
 import dialog.BranchFinder;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class ContactsBook extends javax.swing.JFrame {
 
     
-    PersonDAC personDAC;
+    PersonDAO personDAC;
     Connection myConn;
     /**
      * Creates new form ContactsBook
@@ -47,7 +47,7 @@ public class ContactsBook extends javax.swing.JFrame {
            
             this.myConn =  DbConnector.getInstance().getMyConn();
             // make a DAO for Person class by sending in the DB Connection from dbConnector
-            personDAC = new PersonDAC(myConn);
+            personDAC = new PersonDAO(myConn);
 
         } catch (IOException | SQLException ex) {
             JOptionPane.showMessageDialog(ContactsBook.this, "Error: " + ex, "Error", JOptionPane.ERROR_MESSAGE);
