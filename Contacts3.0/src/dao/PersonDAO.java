@@ -1,5 +1,6 @@
 package dao;
 
+import app.ContactsBook;
 import vo.Person;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -124,7 +126,7 @@ public class PersonDAO {
         PreparedStatement myStmt = null;
         try {
             //prepare statement
-            myStmt = myConn.prepareStatement("INSERT INTO person (FirstName, LastName, `Group`, Tags, NIC, Sex, MobileOne,MobileTwo,Home, Office, Fax,PersonalAddress, OfficeAddress, Business, Notes, BirthDay, AccountNumber,NickName, Branch, CIFno, EmailPersonal, EmailBusiness,WebPagePersonal,WebPageBusiness)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            myStmt = myConn.prepareStatement("INSERT INTO person (FirstName, LastName, `Group`, Tags, NIC, Sex, MobileOne,MobileTwo,Home, Office, Fax,PersonalAddress, OfficeAddress, Business, Notes, BirthDay, AccountNumber,NickName, Branch, CIFno, EmailPersonal, EmailBusiness,WebPagePersonal,WebPageBusiness, Picture)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             //set params
             myStmt.setString(1, person.getFirstName());
@@ -162,6 +164,7 @@ public class PersonDAO {
              myStmt.setString(24, person.getEmailBusiness());
              myStmt.setString(25, person.getWebPagePersonal());
              myStmt.setString(26, person.getWebPageBusiness());*/
+             myStmt.setBytes(25, person.getContactByteImage());
 
             // execute the statement
             myStmt.executeUpdate();
@@ -178,7 +181,7 @@ public class PersonDAO {
         PreparedStatement myStmt = null;
         try {
             //prepare the statement
-            myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, NIC=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=? where NIC=?");// Why this Group has to be `Group` ?????
+            myStmt = myConn.prepareStatement("update person set FirstName=?, LastName=?, `Group`=?, Tags=?, NIC=?, Sex=?, MobileOne=?, MobileTwo=?, Home=?, Office=?, Fax=?, PersonalAddress=?, OfficeAddress=?, Business=?, Notes=?, BirthDay=?, AccountNumber=?, NickName=?, Branch=?, CIFno=?, EmailPersonal=?, EmailBusiness=?, WebPagePersonal=?, WebPageBusiness=?, Picture=? where NIC=?");// Why this Group has to be `Group` ?????
 
             // set params
             myStmt.setString(1, person.getFirstName());
@@ -207,7 +210,8 @@ public class PersonDAO {
             myStmt.setString(22, person.getEmailBusiness());
             myStmt.setString(23, person.getWebPagePersonal());
             myStmt.setString(24, person.getWebPageBusiness());
-            myStmt.setString(25, previousNIC);
+            myStmt.setBytes(25, person.getContactByteImage());
+            myStmt.setString(26, previousNIC);
 
             //execute statement
             myStmt.executeUpdate();
@@ -306,8 +310,11 @@ public class PersonDAO {
         String emailBusiness = myRs.getString(22);
         String webPagePersonal = myRs.getString(23);
         String webPageBusiness = myRs.getString(24);
-
-        Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+        
+        byte[] imageData = myRs.getBytes("Picture");
+        //System.out.println(imageData.length);
+        
+        Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness, imageData);
         return tempPerson;
     }
 

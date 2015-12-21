@@ -7,11 +7,27 @@ import vo.Tag;
 import dao.GroupDAO;
 import dao.PersonDAO;
 import dao.TagDAO;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import utility.NicReader;
 
 /**
@@ -34,6 +50,10 @@ public class NewContact extends javax.swing.JDialog {
 
     NicReader nicReader;
     Connection myConn;
+    
+    private String fileName = "/pics/image.png";
+    private ImageIcon contactImage;
+    private byte[] contactByteImage;
     /**
      * Creates new form AddNewContact
      */
@@ -61,11 +81,15 @@ public class NewContact extends javax.swing.JDialog {
          setLocationRelativeTo(null);
         populateGroupCmbBox();
         populateTagCmbBox();
+      //  contactImage = new ImageIcon(this.getClass().getResource(fileName));
+      //  lblPic.setIcon(contactImage);
 
         if (updateMode) {
             setTitle("Update Contact");
             //call the method to populate gui with current person details
             populateGUI(selectedPerson);
+            contactImage = new ImageIcon(selectedPerson.getContactByteImage());
+            lblPic.setIcon(contactImage);
             previousNIC = selectedPerson.getNic();
         }
     }
@@ -107,9 +131,11 @@ public class NewContact extends javax.swing.JDialog {
         txtSex = new javax.swing.JTextField();
         txtDOB = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
-        path = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        txtPath = new javax.swing.JTextField();
+        btnFileChoser = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        lblPic = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -309,7 +335,7 @@ public class NewContact extends javax.swing.JDialog {
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtSex)
                         .addComponent(txtNic, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +356,12 @@ public class NewContact extends javax.swing.JDialog {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Picture"));
 
-        jButton3.setText("Choose");
+        btnFileChoser.setText("Choose");
+        btnFileChoser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFileChoserActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("capture");
 
@@ -339,20 +370,39 @@ public class NewContact extends javax.swing.JDialog {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(path, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPath)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnFileChoser)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4)))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton3)
-                .addComponent(jButton4))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFileChoser)
+                    .addComponent(jButton4))
+                .addContainerGap())
         );
+
+        lblPic.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPic, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDesktopPane1.setLayer(lblPic, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -360,26 +410,30 @@ public class NewContact extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(192, 192, 192))))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDesktopPane1)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(5, 5, 5)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDesktopPane1)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 17, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
         );
 
         jTabbedPane1.addTab("General", jPanel4);
@@ -488,7 +542,7 @@ public class NewContact extends javax.swing.JDialog {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 84, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 99, Short.MAX_VALUE)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
@@ -536,7 +590,7 @@ public class NewContact extends javax.swing.JDialog {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(19, Short.MAX_VALUE)
                         .addComponent(jLabel16))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(phoneOfficeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -561,7 +615,7 @@ public class NewContact extends javax.swing.JDialog {
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addComponent(businessNameTxt)
+                .addComponent(businessNameTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -628,7 +682,7 @@ public class NewContact extends javax.swing.JDialog {
                             .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,9 +690,9 @@ public class NewContact extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -759,7 +813,7 @@ public class NewContact extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(cancelBtn))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -833,6 +887,70 @@ public class NewContact extends javax.swing.JDialog {
         // get the account type from account no and set text at txt box
     }//GEN-LAST:event_accountNOTxtFocusLost
 
+    private BufferedImage resizeImage(Image image, int type){
+        
+        BufferedImage resizedImage = new BufferedImage(240, 240, type);
+        Graphics2D graphic = resizedImage.createGraphics();
+        graphic.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        graphic.drawImage(image, 0, 0, 240, 240, null);
+        graphic.dispose();
+        return resizedImage;
+    }
+    
+    private void btnFileChoserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileChoserActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg, gif and png files", "jpg", "gif", "png");
+        fc.addChoosableFileFilter(filter);
+        int returnVal = fc.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            File f = fc.getSelectedFile();
+            fileName = f.getAbsolutePath();
+            txtPath.setText(fileName);
+            
+            try {
+                BufferedImage originalImage = ImageIO.read(f);
+                int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+               
+               /* 
+                File image = new File(fileName);
+                FileInputStream fis = new FileInputStream(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[65535]; //1024? or 65535****
+                
+                for ( int readNum; (readNum = fis.read(buf))!=-1;){
+                    bos.write(buf, 0, readNum);
+                }
+                
+                contactByteImage = bos.toByteArray();
+                Image tempImage = new ImageIcon(contactByteImage).getImage();
+                
+                BufferedImage resizedImage =  resizeImage(tempImage, type);
+                System.out.println("dsffafaffafaf");
+                WritableRaster raster = resizedImage.getRaster();
+                DataBufferByte data = (DataBufferByte) raster.getDataBuffer();              
+                contactImage = new ImageIcon(resizeImage(tempImage, type));       
+                contactByteImage = data.getData();
+                lblPic.setIcon(new ImageIcon(contactByteImage));*/
+                BufferedImage resizedImage = resizeImage(originalImage, type);
+                contactImage = new ImageIcon(resizedImage);
+                lblPic.setIcon(contactImage);
+                
+                //converting buffered image to byte array
+                WritableRaster raster = resizedImage.getRaster();
+                DataBufferByte data =  (DataBufferByte) raster.getDataBuffer();
+                
+                contactByteImage = data.getData();
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+    }//GEN-LAST:event_btnFileChoserActionPerformed
+
     public void savePerson() {
 
         //get the person info from GUI
@@ -893,9 +1011,11 @@ public class NewContact extends javax.swing.JDialog {
             tempPerson.setEmailBusiness(emailBusiness);
             tempPerson.setWebPagePersonal(webPagePersonal);
             tempPerson.setWebPageBusiness(webPageBusiness);
+            tempPerson.setContactByteImage(contactByteImage);
+            
 
         } else {
-            tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness);
+            tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness, contactByteImage);
         }
 
         //save person to the database
@@ -951,6 +1071,10 @@ public class NewContact extends javax.swing.JDialog {
         emailBusinessTxt.setText(person.getEmailBusiness());
         webPagePersonalTxt.setText(person.getWebPagePersonal());
         webPageBusinessTxt.setText(person.getWebPageBusiness());
+        
+        /*contactImage = new ImageIcon(person.getContactByteImage());
+        System.out.println("sadfsafsadffadsfdafadsfds");
+        lblPic.setIcon(contactImage);*/
 
     }
 
@@ -1012,6 +1136,7 @@ public class NewContact extends javax.swing.JDialog {
     private javax.swing.JTextField branchTxt;
     private javax.swing.JButton btnAddGroup;
     private javax.swing.JButton btnAddTags;
+    private javax.swing.JButton btnFileChoser;
     private javax.swing.JButton btnSave;
     private javax.swing.JTextField businessNameTxt;
     private javax.swing.JButton cancelBtn;
@@ -1022,8 +1147,8 @@ public class NewContact extends javax.swing.JDialog {
     private javax.swing.JTextField emailPersonalTxt;
     private javax.swing.JTextField firstNameTxt;
     private javax.swing.JTextField homeTxt;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1065,14 +1190,15 @@ public class NewContact extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lastNameTxt;
+    private javax.swing.JLabel lblPic;
     private javax.swing.JTextField mobile1Txt;
     private javax.swing.JTextField mobile2Txt;
     private javax.swing.JTextField nickNameTxt;
     private javax.swing.JTextArea notesTxt;
-    private javax.swing.JTextField path;
     private javax.swing.JTextField phoneOfficeTxt;
     private javax.swing.JTextField txtDOB;
     private javax.swing.JTextField txtNic;
+    private javax.swing.JTextField txtPath;
     private javax.swing.JTextField txtSex;
     private javax.swing.JTextField webPageBusinessTxt;
     private javax.swing.JTextField webPagePersonalTxt;

@@ -1,6 +1,8 @@
 
 package vo;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Malith
@@ -24,7 +26,7 @@ public class Person {
     private String business;
     private String notes;
     private String birthday;
-   // private Blob picture; // later
+    
     private String acNumber;
     private String nickName;
     private String branch;
@@ -35,12 +37,15 @@ public class Person {
     private String webPagePersonal;
     private String webPageBusiness;
 
+    byte[] contactByteImage;
+            
     public Person(){
         
     }
     //constructure (without pic)
-    public Person(String firstName, String lastName, String group, String tags, String nic, String sex, String mobileOne, String mobileTwo, String home, String office, String fax, String personalAddress, String officeAddress, String business, String notes, String birthday, String acNumber, String nickName, String branch, String cifNo, String emailPersonal, String emailBusiness, String webPagePersonal, String webPageBusiness) {
+    public Person(String firstName, String lastName, String group, String tags, String nic, String sex, String mobileOne, String mobileTwo, String home, String office, String fax, String personalAddress, String officeAddress, String business, String notes, String birthday, String acNumber, String nickName, String branch, String cifNo, String emailPersonal, String emailBusiness, String webPagePersonal, String webPageBusiness, byte[] contactByteImage) {
         //super();
+        
         this.firstName = firstName;
         this.lastName = lastName;
         this.group = group;
@@ -66,6 +71,7 @@ public class Person {
         this.emailBusiness = emailBusiness;
         this.webPagePersonal = webPagePersonal;
         this.webPageBusiness = webPageBusiness;
+        this.contactByteImage = contactByteImage;
     }
     
 
@@ -270,6 +276,16 @@ public class Person {
     public String getWebPageBusiness() {
         return webPageBusiness;
     }
+
+    public byte[] getContactByteImage() {
+        return contactByteImage;
+    }
+
+    public void setContactByteImage(byte[] contactByteImage) {
+        this.contactByteImage = contactByteImage;
+    }
+
+   
     
     public String getSummary(){
         String temp = "<html><body>";

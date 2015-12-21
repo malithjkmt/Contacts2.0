@@ -28,6 +28,8 @@ public class ContactsBook extends javax.swing.JFrame {
     
     PersonDAO personDAC;
     Connection myConn;
+    
+            
     /**
      * Creates new form ContactsBook
      */
