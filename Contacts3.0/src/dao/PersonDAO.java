@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -311,8 +312,9 @@ public class PersonDAO {
         String webPagePersonal = myRs.getString(23);
         String webPageBusiness = myRs.getString(24);
         
-        byte[] imageData = myRs.getBytes("Picture");
-        //System.out.println(imageData.length);
+        byte[] imageData = myRs.getBytes(25);
+        
+        System.out.println(imageData.length);
         
         Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness, imageData);
         return tempPerson;

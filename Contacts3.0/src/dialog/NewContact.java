@@ -7,9 +7,11 @@ import vo.Tag;
 import dao.GroupDAO;
 import dao.PersonDAO;
 import dao.TagDAO;
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
@@ -54,6 +56,7 @@ public class NewContact extends javax.swing.JDialog {
     private String fileName = "/pics/image.png";
     private ImageIcon contactImage;
     private byte[] contactByteImage;
+    private File f;
     /**
      * Creates new form AddNewContact
      */
@@ -78,20 +81,30 @@ public class NewContact extends javax.swing.JDialog {
         nicReader = new NicReader();
 
         initComponents();
-         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         populateGroupCmbBox();
         populateTagCmbBox();
-      //  contactImage = new ImageIcon(this.getClass().getResource(fileName));
-      //  lblPic.setIcon(contactImage);
+       
 
         if (updateMode) {
             setTitle("Update Contact");
             //call the method to populate gui with current person details
             populateGUI(selectedPerson);
+            try{
             contactImage = new ImageIcon(selectedPerson.getContactByteImage());
             lblPic.setIcon(contactImage);
+                System.out.println(lblPic.toString());
+            }
+            catch (NullPointerException e){
+                System.out.println(e.toString());
+            }
             previousNIC = selectedPerson.getNic();
         }
+        else{
+            contactImage = new ImageIcon(this.getClass().getResource(fileName));
+            lblPic.setIcon(contactImage);
+        }
+         
     }
 
     /**
@@ -391,6 +404,9 @@ public class NewContact extends javax.swing.JDialog {
         );
 
         lblPic.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblPic.setMaximumSize(new java.awt.Dimension(340, 340));
+        lblPic.setMinimumSize(new java.awt.Dimension(240, 240));
+        lblPic.setPreferredSize(new java.awt.Dimension(240, 240));
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -887,7 +903,7 @@ public class NewContact extends javax.swing.JDialog {
         // get the account type from account no and set text at txt box
     }//GEN-LAST:event_accountNOTxtFocusLost
 
-    private BufferedImage resizeImage(Image image, int type){
+    private BufferedImage resizeImage(BufferedImage image, int type){
         
         BufferedImage resizedImage = new BufferedImage(240, 240, type);
         Graphics2D graphic = resizedImage.createGraphics();
@@ -899,19 +915,20 @@ public class NewContact extends javax.swing.JDialog {
     
     private void btnFileChoserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileChoserActionPerformed
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(f);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg, gif and png files", "jpg", "gif", "png");
         fc.addChoosableFileFilter(filter);
         int returnVal = fc.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
-            File f = fc.getSelectedFile();
+            f = fc.getSelectedFile();
             fileName = f.getAbsolutePath();
             txtPath.setText(fileName);
             
             try {
                 BufferedImage originalImage = ImageIO.read(f);
                 int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-               
-               /* 
+ 
+               /*
                 File image = new File(fileName);
                 FileInputStream fis = new FileInputStream(image);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -924,22 +941,32 @@ public class NewContact extends javax.swing.JDialog {
                 contactByteImage = bos.toByteArray();
                 Image tempImage = new ImageIcon(contactByteImage).getImage();
                 
-                BufferedImage resizedImage =  resizeImage(tempImage, type);
+                BufferedImage resizedImage =  resizeImage(tempImage, 2);
                 System.out.println("dsffafaffafaf");
                 WritableRaster raster = resizedImage.getRaster();
                 DataBufferByte data = (DataBufferByte) raster.getDataBuffer();              
-                contactImage = new ImageIcon(resizeImage(tempImage, type));       
+                contactImage = new ImageIcon(resizeImage(tempImage, 2));       
                 contactByteImage = data.getData();
                 lblPic.setIcon(new ImageIcon(contactByteImage));*/
                 BufferedImage resizedImage = resizeImage(originalImage, type);
-                contactImage = new ImageIcon(resizedImage);
+                contactImage = new ImageIcon(toImage(resizedImage));
+                
                 lblPic.setIcon(contactImage);
                 
                 //converting buffered image to byte array
-                WritableRaster raster = resizedImage.getRaster();
-                DataBufferByte data =  (DataBufferByte) raster.getDataBuffer();
+            /*    WritableRaster raster = resizedImage.getRaster();
+                DataBufferByte data =  (DataBufferByte) raster.getDataBuffer();*/
                 
-                contactByteImage = data.getData();
+                
+                //convert version 2
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write( resizedImage, "jpg", baos );
+                baos.flush();
+                contactByteImage = baos.toByteArray();
+                baos.close();
+			
+                
+               // contactByteImage = data.getData();
                 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
@@ -951,6 +978,11 @@ public class NewContact extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnFileChoserActionPerformed
 
+   
+     public Image toImage(BufferedImage bufferedImage) {
+        return Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
+    }
+     
     public void savePerson() {
 
         //get the person info from GUI
