@@ -928,45 +928,19 @@ public class NewContact extends javax.swing.JDialog {
                 BufferedImage originalImage = ImageIO.read(f);
                 int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
  
-               /*
-                File image = new File(fileName);
-                FileInputStream fis = new FileInputStream(image);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] buf = new byte[65535]; //1024? or 65535****
-                
-                for ( int readNum; (readNum = fis.read(buf))!=-1;){
-                    bos.write(buf, 0, readNum);
-                }
-                
-                contactByteImage = bos.toByteArray();
-                Image tempImage = new ImageIcon(contactByteImage).getImage();
-                
-                BufferedImage resizedImage =  resizeImage(tempImage, 2);
-                System.out.println("dsffafaffafaf");
-                WritableRaster raster = resizedImage.getRaster();
-                DataBufferByte data = (DataBufferByte) raster.getDataBuffer();              
-                contactImage = new ImageIcon(resizeImage(tempImage, 2));       
-                contactByteImage = data.getData();
-                lblPic.setIcon(new ImageIcon(contactByteImage));*/
                 BufferedImage resizedImage = resizeImage(originalImage, type);
                 contactImage = new ImageIcon(toImage(resizedImage));
                 
                 lblPic.setIcon(contactImage);
+          
                 
                 //converting buffered image to byte array
-            /*    WritableRaster raster = resizedImage.getRaster();
-                DataBufferByte data =  (DataBufferByte) raster.getDataBuffer();*/
-                
-                
-                //convert version 2
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write( resizedImage, "jpg", baos );
                 baos.flush();
                 contactByteImage = baos.toByteArray();
                 baos.close();
-			
-                
-               // contactByteImage = data.getData();
+    
                 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
