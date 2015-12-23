@@ -14,10 +14,9 @@ public class PersonTableModel extends AbstractTableModel {
         public static final int OBJECT_COL = -1;
 	private static final int LAST_NAME_COL = 0;
 	private static final int FIRST_NAME_COL = 1;
-	private static final int NIC_COL = 2;
-	private static final int AC_NO_COL = 3;
+	
 
-	private String[] columnNames = { "Last Name", "First Name", "NIC","Account No" };// this should come from user input..... user can customize what fields to show
+	private String[] columnNames = { "Last Name", "First Name" };// this should come from user input..... user can customize what fields to show
 	private List<Person> person = null;
         
         public PersonTableModel() {
@@ -53,11 +52,7 @@ public class PersonTableModel extends AbstractTableModel {
 		case LAST_NAME_COL:
 			return tempPerson.getLastName();
 		case FIRST_NAME_COL:
-			return tempPerson.getFirstName();
-		case NIC_COL:
-			return tempPerson.getNic();
-		case AC_NO_COL:
-			return tempPerson.getAcNumber();
+			return tempPerson.getFirstName();		
                 case OBJECT_COL:
 			return tempPerson;
 		default:

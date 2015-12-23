@@ -306,7 +306,7 @@ public class Person {
              
 
         temp+="<TABLE ALIGN=CENTER WIDTH=\"90%\" BORDER=0 CELLSPACING=1 CELLPADDING=1><caption>"+name+"</caption>";   
-           temp+="<tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>";
+        
        /* BufferedImage image = ImageIO.read( new ByteArrayInputStream( contactByteImage ) );
         ImageIO.write(image, "JPG", new File("src/pics/t.jpg"));
         
