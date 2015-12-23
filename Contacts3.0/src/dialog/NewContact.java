@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
@@ -45,7 +46,6 @@ import utility.NicReader;
 public class NewContact extends javax.swing.JDialog {
 
     // make instances to be initialized in the constructer
-
     private PersonDAO personDAC;
     private GroupDAO groupDAC;
     private TagDAO tagDAC;
@@ -58,25 +58,28 @@ public class NewContact extends javax.swing.JDialog {
 
     NicReader nicReader;
     Connection myConn;
-    
-    private String fileName = "/pics/image.png";
-    private String fileName2 = "/ContactPictures/image.jpg"; 
 
-    private ImageIcon contactImage;
-    private byte[] contactByteImage;
+    private String fileName = "/pics/image.png";
+    private String fileName2 = "/ContactPictures/image.jpg";
+
+    public static ImageIcon contactImage;
+    public byte[] contactByteImage;
     private File f;
-    
+
     private String CamImageUrl = "http://192.168.1.5:8080/photoaf.jpg";
-    private String CamImagedestination = "ContactPictures//image.jpg";
- 
-    
-                
+    private String CamImagedestination = "src/ContactPictures/image.jpg";
+
+    public void setPic(ImageIcon contactImage) {
+        this.contactImage = contactImage;
+        lblPic.setIcon(contactImage);
+    }
+
     /**
      * Creates new form AddNewContact
      */
     public NewContact(java.awt.Frame parent, boolean modal) throws IOException, SQLException { // do I need this???
         super(parent, modal);
-       
+
         initComponents();
     }
 
@@ -85,7 +88,7 @@ public class NewContact extends javax.swing.JDialog {
 
         this.personDAC = personDAC;
         this.contactBook = contactBook;
-         this.myConn = myConn;
+        this.myConn = myConn;
         this.groupDAC = new GroupDAO(personDAC.getMyConn()); // is this ok?
         this.tagDAC = new TagDAO(personDAC.getMyConn());
 
@@ -98,32 +101,29 @@ public class NewContact extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         populateGroupCmbBox();
         populateTagCmbBox();
-       
 
         if (updateMode) {
             setTitle("Update Contact");
             //call the method to populate gui with current person details
             populateGUI(selectedPerson);
-            try{
-            contactImage = new ImageIcon(selectedPerson.getContactByteImage());
-            lblPic.setIcon(contactImage);
-              
-            }
-            catch (NullPointerException e){
+            try {
+                contactImage = new ImageIcon(selectedPerson.getContactByteImage());
+                lblPic.setIcon(contactImage);
+
+            } catch (NullPointerException e) {
                 System.out.println(e.toString());
             }
             previousNIC = selectedPerson.getNic();
-        }
-        else{
+        } else {
             contactImage = new ImageIcon(this.getClass().getResource(fileName));
             lblPic.setIcon(contactImage);
-            
+
             BufferedImage img = null;
             try {
-                 img = ImageIO.read(new File(getClass().getResource(fileName).toURI()));
-            
+                img = ImageIO.read(new File(getClass().getResource(fileName).toURI()));
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write( img, "jpg", baos );
+                ImageIO.write(img, "jpg", baos);
                 baos.flush();
                 contactByteImage = baos.toByteArray();
                 baos.close();
@@ -132,9 +132,9 @@ public class NewContact extends javax.swing.JDialog {
             } catch (URISyntaxException ex) {
                 Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
             }
-       
+
         }
-         
+
     }
 
     /**
@@ -924,18 +924,16 @@ public class NewContact extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnAddGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroupActionPerformed
-        NewGroup addNewGroup = new NewGroup(this, true, groupDAC,myConn); // this or NewContact.this
-        
-         
+        NewGroup addNewGroup = new NewGroup(this, true, groupDAC, myConn); // this or NewContact.this
+
         addNewGroup.setVisible(true);
-         
-        
+
 
     }//GEN-LAST:event_btnAddGroupActionPerformed
 
     private void btnAddTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTagsActionPerformed
         NewTag newTag = new NewTag(this, updateMode, tagDAC); // this or NewContact.this
-        
+
         newTag.setVisible(true);
     }//GEN-LAST:event_btnAddTagsActionPerformed
 
@@ -949,21 +947,20 @@ public class NewContact extends javax.swing.JDialog {
         // get the account type from account no and set text at txt box
     }//GEN-LAST:event_accountNOTxtFocusLost
 
-    private BufferedImage resizeImage(BufferedImage image, int type){
+    private BufferedImage resizeImage(BufferedImage image, int type) {
         int WIDTH = image.getWidth();
-       
+
         int HEIGHT = image.getHeight();
         int height;
         int width;
-        if(WIDTH < HEIGHT){
-             height = 300;
-             width = 300*WIDTH/HEIGHT;
+        if (WIDTH < HEIGHT) {
+            height = 300;
+            width = 300 * WIDTH / HEIGHT;
+        } else {
+            width = 240;
+            height = 240 * HEIGHT / WIDTH;
         }
-        else{
-             width = 240;
-             height = 240*HEIGHT/WIDTH;
-        }
-        
+
         BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D graphic = resizedImage.createGraphics();
         graphic.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -971,81 +968,79 @@ public class NewContact extends javax.swing.JDialog {
         graphic.dispose();
         return resizedImage;
     }
-    
+
     private void btnFileChoserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileChoserActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(f);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg, gif and png files", "jpg", "gif", "png");
         fc.addChoosableFileFilter(filter);
         int returnVal = fc.showOpenDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             f = fc.getSelectedFile();
             fileName = f.getAbsolutePath();
             txtPath.setText(fileName);
-            
+
             try {
                 BufferedImage originalImage = ImageIO.read(f);
                 int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
- 
+
                 BufferedImage resizedImage = resizeImage(originalImage, type);
                 contactImage = new ImageIcon(toImage(resizedImage));
-                
+
                 lblPic.setIcon(contactImage);
-          
-                
+
                 //converting buffered image to byte array
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write( resizedImage, "jpg", baos );
+                ImageIO.write(resizedImage, "jpg", baos);
                 baos.flush();
                 contactByteImage = baos.toByteArray();
                 baos.close();
-    
-                
+
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
+
         }
     }//GEN-LAST:event_btnFileChoserActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            saveCamImage(CamImageUrl, CamImagedestination);
-            
-            BufferedImage originalImage = ImageIO.read(new File(getClass().getResource(fileName2).toURI()));
-                int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
- 
-                BufferedImage resizedImage = resizeImage(originalImage, type);
-                contactImage = new ImageIcon(toImage(resizedImage));
-                
            
-            lblPic.setIcon(contactImage);
+            URL url = new URL("http://192.168.1.2:8080/photoaf.jpg");
+            BufferedImage originalImage = ImageIO.read(url);
+           
+
             
+
+             int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+ 
+             BufferedImage resizedImage = resizeImage(originalImage, type);
+             contactImage = new ImageIcon(toImage(resizedImage));
+             lblPic.setIcon(contactImage);   
+           
+           
                
             
                  
             
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write( resizedImage, "jpg", baos );
-                baos.flush();
-                contactByteImage = baos.toByteArray();
-                baos.close();
-            
-        } catch (IOException ex) {
+             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ImageIO.write( resizedImage, "jpg", baos );
+             baos.flush();
+             contactByteImage = baos.toByteArray();
+             baos.close();
+        } catch (MalformedURLException ex) {
             Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(NewContact.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-   
-     public Image toImage(BufferedImage bufferedImage) {
+
+    public Image toImage(BufferedImage bufferedImage) {
         return Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
     }
-     
-     
+
     public void savePerson() {
 
         //get the person info from GUI
@@ -1107,7 +1102,6 @@ public class NewContact extends javax.swing.JDialog {
             tempPerson.setWebPagePersonal(webPagePersonal);
             tempPerson.setWebPageBusiness(webPageBusiness);
             tempPerson.setContactByteImage(contactByteImage);
-            
 
         } else {
             tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness, contactByteImage);
@@ -1166,42 +1160,42 @@ public class NewContact extends javax.swing.JDialog {
         emailBusinessTxt.setText(person.getEmailBusiness());
         webPagePersonalTxt.setText(person.getWebPagePersonal());
         webPageBusinessTxt.setText(person.getWebPageBusiness());
-        
+
         /*contactImage = new ImageIcon(person.getContactByteImage());
-        System.out.println("sadfsafsadffadsfdafadsfds");
-        lblPic.setIcon(contactImage);*/
+         System.out.println("sadfsafsadffadsfdafadsfds");
+         lblPic.setIcon(contactImage);*/
+    }
+
+    public static void saveCamImage(String imageUrl, String destinationFile) throws IOException {
+        URL url = new URL(imageUrl);
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = url.openStream();
+            os = new FileOutputStream(destinationFile);
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+        } catch (ConnectException e) {
+            System.out.println(e.toString());
+            JOptionPane.showMessageDialog(null, "Please start cam server in the phone!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception er) {
+            System.out.println(er.toString());
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.close();
+            }
+
+        }
 
     }
-    
-    public static void saveCamImage(String imageUrl, String destinationFile) throws IOException {
-		URL url = new URL(imageUrl);
-                InputStream is = null;
-                OutputStream os = null;
-		try{
-                is = url.openStream();
-		os = new FileOutputStream(destinationFile);
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) {
-			os.write(b, 0, length);
-		}
-                }
-                catch (ConnectException e){
-                    System.out.println(e.toString());
-                    JOptionPane.showMessageDialog(null,"Please start cam server in the phone!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                catch( Exception er){
-                    System.out.println(er.toString());
-                }
-                finally{
-                    if(is != null){is.close();}
-                    if(os != null){os.close();}
-                    
-                }
-		
-	}
 
     /**
      * @param args the command line arguments
