@@ -19,13 +19,13 @@ import javax.swing.JOptionPane;
  */
 public class Test {
     public static void main(String[] args) throws Exception {
-		String imageUrl = "http://192.168.1.5:8080/photoaf.jpg";
-		String destinationFile = "ContactPictures//image.jpg";
+		String CamImageUrl = "http://192.168.1.5:8080/photoaf.jpg";
+		String CamImagedestination = "ContactPictures//image.jpg";
 
-		saveImage(imageUrl, destinationFile);
+		saveCamImage(CamImageUrl, CamImagedestination);
 	}
 
-	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+	public static void saveCamImage(String imageUrl, String destinationFile) throws IOException {
 		URL url = new URL(imageUrl);
                 InputStream is = null;
                 OutputStream os = null;
