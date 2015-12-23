@@ -1,7 +1,11 @@
 
 package vo;
 
-import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -288,16 +292,29 @@ public class Person {
    
     
     public String getSummary(){
-        String temp = "<html><body>";
+       
         
+       
+      //  String temp = "<html><img src='" + getClass().getResource("/pics/g.png").toString() + "' /> ";
+        String temp = "<html><body> ";
+        
+
+       //JOptionPane.showMessageDialog(null, text);
         String name = "";
         if(firstName != null & !"".equals(firstName)){name+= "<h1><font color=\"#00BFFF\">"+firstName+"</font>&#160";}    
          if(lastName != null & !"".equals(lastName)){name+= "<font color=\"#00BFFF\">"+lastName+"</font></h1>";} 
+             
+
+        temp+="<TABLE ALIGN=CENTER WIDTH=\"90%\" BORDER=0 CELLSPACING=1 CELLPADDING=1><caption>"+name+"</caption>";   
+           temp+="<tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>";
+       /* BufferedImage image = ImageIO.read( new ByteArrayInputStream( contactByteImage ) );
+        ImageIO.write(image, "JPG", new File("src/pics/t.jpg"));
         
-        temp="<TABLE ALIGN=CENTER WIDTH=\"90%\" BORDER=0 CELLSPACING=1 CELLPADDING=1><caption>"+name+"</caption>";   
-        
-        
-        if(nickName != null & !"".equals(nickName)){temp+=          "<tr><td><b>Nick&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160 </b></td><td>"+nickName+"</td></tr>";}            
+        image.flush();
+
+        temp+="<tr><td><div class = \"mc\"><img  src='" + getClass().getResource("/pics/t.jpg").toString() +  "'  > </img></div></td></tr>";
+        */
+        if(nickName != null & !"".equals(nickName)){temp+=          "<tr><td><b>Nick&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160 </b></td><td>"+nickName+"</td></tr>";}            
         if(group != null & !"".equals(group)){temp+=                "<tr><td><b>Group</b></td><td>"+group+"</td></tr>";}
         if(nic != null & !"".equals(nic)){temp+=                    "<tr><td><b>NIC</b></td><td>"+nic+"</td></tr>";}
         if(mobileOne != null & !"".equals(mobileOne)){temp+=        "<tr><td><b>Mobile 1</b></td><td>"+mobileOne+"</td></tr>";}

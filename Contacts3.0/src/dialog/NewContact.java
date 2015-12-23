@@ -93,7 +93,7 @@ public class NewContact extends javax.swing.JDialog {
             try{
             contactImage = new ImageIcon(selectedPerson.getContactByteImage());
             lblPic.setIcon(contactImage);
-                System.out.println(lblPic.toString());
+              
             }
             catch (NullPointerException e){
                 System.out.println(e.toString());
@@ -951,7 +951,6 @@ public class NewContact extends javax.swing.JDialog {
             
         }
     }//GEN-LAST:event_btnFileChoserActionPerformed
-
    
      public Image toImage(BufferedImage bufferedImage) {
         return Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());

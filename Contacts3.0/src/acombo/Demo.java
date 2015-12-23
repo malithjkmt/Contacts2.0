@@ -5,12 +5,33 @@
  */
 package acombo;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 /**
  *
  * @author Malith
  */
 public class Demo extends javax.swing.JFrame {
-String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali Air"};
+
+    String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali Air"};
+    public  Image localImage;
+    public  String localImageSrc= getClass().getResource("/pics/g.png").toString();
+    
+    public  String HTML="<html>\n" +
+            "<body>\n" +
+            "Local image accessed from HTML<br>\n" +
+            "<img src=\""+localImageSrc+"\">\n" +
+            "</body>\n" +
+            "</html>";
     /**
      * Creates new form NewJFrame
      */
@@ -18,6 +39,22 @@ String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali 
         initComponents();
         cb.setKeyWord(keyWord);
         cb.repaint();
+        localImage=createImage();
+        edit.setText(HTML);
+        
+        try {
+            Dictionary cache=(Dictionary)edit.getDocument().getProperty("imageCache");
+            if (cache==null) {
+                cache=new Hashtable();
+                edit.getDocument().putProperty("imageCache",cache);
+            }
+
+            URL u = new URL(localImageSrc);
+            cache.put(u, localImage);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     /**
@@ -30,8 +67,42 @@ String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali 
     private void initComponents() {
 
         cb = new acombo.AutoComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        edit = new javax.swing.JEditorPane();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        edit.setEditable(false);
+        edit.setBorder(null);
+        edit.setContentType("text/html"); // NOI18N
+        edit.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <p style=\"margin-top: 0\">\r\n\n    </p>\r\n  </body>\r\n</html>\r\n");
+        jScrollPane2.setViewportView(edit);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("add new markup");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -40,19 +111,51 @@ String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali 
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(cb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addComponent(jButton1)))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(167, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(108, 108, 108))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+  public static Image createImage() {
+        BufferedImage img=new BufferedImage(100,50,BufferedImage.TYPE_INT_ARGB);
+        Graphics g=img.getGraphics();
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(Color.BLUE);
+        g.fillRect(0,0,100,50);
+ 
+        g.setColor(Color.YELLOW);
+        g.fillOval(5,5,90,40);
+        img.flush();
+ 
+        return img;
+    }
+     
+     
     /**
      * @param args the command line arguments
      */
@@ -91,5 +194,9 @@ String keyWord[] = {"Garuda", "Lion Air", "Lufthansa Air", "Batavia Air", "Bali 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private acombo.AutoComboBox cb;
+    private javax.swing.JEditorPane edit;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

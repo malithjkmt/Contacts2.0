@@ -314,7 +314,6 @@ public class PersonDAO {
         
         byte[] imageData = myRs.getBytes(25);
         
-        System.out.println(imageData.length);
         
         Person tempPerson = new Person(firstName, lastName, group, tags, nic, sex, mobileOne, mobileTwo, home, office, fax, personalAddress, officeAddress, business, notes, birthday, acNumber, nickName, branch, cifNo, emailPersonal, emailBusiness, webPagePersonal, webPageBusiness, imageData);
         return tempPerson;
